@@ -11,20 +11,14 @@ import com.EMS.entities.User;
 import com.EMS.enums.UserAgentType;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Transient;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import org.jboss.weld.util.collections.EnumerationList;
 
 /**
  *
@@ -108,8 +102,7 @@ public class LoginBean implements Serializable {
         //if(loginFacade.loginCheck(username, password).equals(msg)){
         if (req.isUserInRole("student")) {
             appUser = userFacade.fetchUser(req.getRemoteUser());
-            String returnLink = (userAgent == 1) ? "student/StudentExamTimeTable?faces-redirect=true" : "student/ExamView?faces-redirect=true";
-            System.out.println("returnlink"+ returnLink);
+            String returnLink = (userAgent == 1) ? "Student/StudentExamTimeTable?faces-redirect=true" : "Student/ExamView?faces-redirect=true";
             return returnLink;
         } else if (req.isUserInRole("lecturer")) {
             UserAgentType.values();

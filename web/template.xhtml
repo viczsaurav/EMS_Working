@@ -29,15 +29,13 @@
                 <p:graphicImage library="images" name="EMS_transparent_small.jpg" />
                 <h:form id="menuForm">
                     <p:slideMenu style="width:160px">
-                        <p:menuitem value="#{bundle.Home}" outcome="/student/ExamView.xhtml" icon="ui-icon-home"
+                        <p:menuitem value="#{bundle.Home}" outcome="/Student/ExamView.xhtml" icon="ui-icon-home"
                                     rendered="#{loginBean.appUser.role=='student'}"/>
+                        <p:menuitem value="Manage Questions" outcome="/question/List.xhtml" />
                         <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="CourseModule" outcome="/courseModule/List.xhtml" />
-                            <p:menuitem value="Question" outcome="/question/List.xhtml" />
-                            <p:menuitem value="Subject" outcome="/subject/List.xhtml" />
+                            <p:menuitem value="Course Modules" outcome="/courseModule/List.xhtml" />
+                            <p:menuitem value="Subject Tags" outcome="/subject/List.xhtml" />
                         </p:submenu>
-                        <p:menuitem value="" />
-                        <p:menuitem value="" />
                         <p:menuitem value="" />
                     </p:slideMenu>
                 </h:form>

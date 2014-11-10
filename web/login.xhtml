@@ -1,47 +1,45 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
     <h:head>
-        <title><ui:insert name="title">Exam Management System</ui:insert></title>
-        <h:outputStylesheet library="css" name="jsfcrud.css"/>
-        <h:outputStylesheet library="css" name="styles.css"/>
-        <h:outputScript library="js" name="jsfcrud.js"/>
 
     </h:head>
+
     <h:body>
 
-        <p:growl id="growl" life="3000" />
+        <pm:page id="main">
+            <pm:header title="#{bundle.AppName}"/>               
 
-        <p:layout fullPage="true">
-            <p:layoutUnit  position="north" size="30" header="#{bundle.AppName}">
-            </p:layoutUnit>
+            <pm:content>
+                <h:form>
+                    <p:panel header="#{bundle.loginform}">
+                        <pm:field>
+                            <p:outputLabel for="userid" value="#{bundle.UserID}" />
+                            <p:inputText id="userid" value="#{loginBean.username}" required="true" requiredMessage="UserID cannot be empty" />
+                        </pm:field>
 
-            <p:layoutUnit position="south" size="60">
-                <ui:insert name="footer"/>
-            </p:layoutUnit>
-
-            <p:layoutUnit position="center" style="background-color: gray">
-                <h:form id="LoginForm" >
-                    <p:fieldset legend="#{bundle.loginform}" 
-                                style="width: 30%;margin-bottom:20%;margin-left: 10%;margin-right: 60%;margin-top: 5%;">
-                        <p:panelGrid  columns="2" style="alignment-adjust: middle">
-                            <p:outputLabel for="userid" value="#{bundle.UserID}:" />
-                            <p:inputText  id="userid" value="#{loginBean.username}" required="true" requiredMessage="User ID cannot be empty"/>
+                        <pm:field>
                             <p:outputLabel for="password" value="#{bundle.password}" />
-                            <p:password  id="password" value="#{loginBean.password}" required="true" requiredMessage="Password Field cannot be empty"/>
-                            
-                        </p:panelGrid>
-                        <p:commandButton value="Login" action="#{loginBean.login()}" ajax="false" style="float: left" />
-                    </p:fieldset>
+                            <p:password id="password" value="#{loginBean.password}" required="true" requiredMessage="Password Field cannot be empty"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:commandButton value="Login" action="#{loginBean.login()}" ajax="false" style="float: left" />
+                        </pm:field>
+                    </p:panel>
                 </h:form>
-            </p:layoutUnit>
+            </pm:content>
 
-        </p:layout>
-
+            <pm:footer>
+                <!--<h:outputText value="#{bundle.footer}"/>-->
+            </pm:footer>
+        </pm:page>
     </h:body>
 
 </html>

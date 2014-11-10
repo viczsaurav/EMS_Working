@@ -54,7 +54,7 @@
         <web-resource-collection>
             <web-resource-name>student</web-resource-name>
             <description>Student</description>
-            <url-pattern>/faces/student/*</url-pattern>
+            <url-pattern>/faces/Student/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Student</description>

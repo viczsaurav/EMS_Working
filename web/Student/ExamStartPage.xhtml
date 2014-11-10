@@ -46,6 +46,7 @@
                     <p:separator/>
 
                     <p:commandButton id="startButton" value="#{bundle.ExamStart}" action= "#{examSessionController.startExam()}" ajax="false"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="history.back();return false;"/>
                 </p:fieldset>
 
             </h:form>
