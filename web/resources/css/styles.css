@@ -1,0 +1,11 @@
+.ui-slidemenu-content{
+    height: 200px !important;
+}
+
+.ui-menu.ui-widget{
+    min-height: 350px !important;
+}
+
+.ui-layout-resizer{
+    background-color: #dddddd !important;
+}

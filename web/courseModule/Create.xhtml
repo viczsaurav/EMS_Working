@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCourseModuleTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCourseModuleLabel_dateOfExam}" for="dateOfExam" />
+                    <h:inputText id="dateOfExam" value="#{courseModuleController.selected.dateOfExam}" title="#{bundle.CreateCourseModuleTitle_dateOfExam}" required="true" requiredMessage="#{bundle.CreateCourseModuleRequiredMessage_dateOfExam}"/>
+                    <h:outputLabel value="#{bundle.CreateCourseModuleLabel_startTime}" for="startTime" />
+                    <h:inputText id="startTime" value="#{courseModuleController.selected.startTime}" title="#{bundle.CreateCourseModuleTitle_startTime}" required="true" requiredMessage="#{bundle.CreateCourseModuleRequiredMessage_startTime}"/>
+                    <h:outputLabel value="#{bundle.CreateCourseModuleLabel_duration}" for="duration" />
+                    <h:inputText id="duration" value="#{courseModuleController.selected.duration}" title="#{bundle.CreateCourseModuleTitle_duration}" required="true" requiredMessage="#{bundle.CreateCourseModuleRequiredMessage_duration}"/>
+                    <h:outputLabel value="#{bundle.CreateCourseModuleLabel_location}" for="location" />
+                    <h:inputText id="location" value="#{courseModuleController.selected.location}" title="#{bundle.CreateCourseModuleTitle_location}" required="true" requiredMessage="#{bundle.CreateCourseModuleRequiredMessage_location}"/>
+                    <h:outputLabel value="#{bundle.CreateCourseModuleLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{courseModuleController.selected.name}" title="#{bundle.CreateCourseModuleTitle_name}" required="true" requiredMessage="#{bundle.CreateCourseModuleRequiredMessage_name}"/>
+                    <h:outputLabel value="#{bundle.CreateCourseModuleLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{courseModuleController.selected.id}" title="#{bundle.CreateCourseModuleTitle_id}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{courseModuleController.create}" value="#{bundle.CreateCourseModuleSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{courseModuleController.prepareList}" value="#{bundle.CreateCourseModuleShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateCourseModuleIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

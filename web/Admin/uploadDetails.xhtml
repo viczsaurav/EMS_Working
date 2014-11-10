@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/pagetemplate.xhtml">
+            <ui:define name="content">   
+                <h:panelGrid>
+                    <h:form enctype="multipart/form-data">
+                        <div>    
+                            <div><h:inputFile id="inputfile" required="true" requiredMessage="No file selected!" value="#{maintainUser.file}">
+                                    <f:validator validatorId="FileUploadValidator"/>
+                                </h:inputFile></div>
+                            <div><h:commandButton value="Upload" id="upload" actionListener = "#{maintainUser.uploadStudents()}"/> </div>
+                            <h:outputText value="Files with .csv are only accepted"/>
+                        </div>
+                    </h:form>
+                </h:panelGrid>
+            </ui:define>     
+        </ui:composition>
+    </h:body>
+</html>
+

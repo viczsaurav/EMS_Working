@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/ezcomp">
+
+    <ui:composition>
+
+        <p:dialog id="QuestionCreateDlg" widgetVar="QuestionCreateDialog" position="top" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateQuestionTitle}">
+            <h:form id="QuestionCreateForm">
+                <p:panelGrid id="display" columns="1">
+                    <f:facet name="header">
+                    <p:outputLabel for="qType" value="#{bundle.CreateQuestionTitle_questionType}"/>
+                    <p:selectOneMenu id="qType" value="#{questionController.questionType}" required="true" requiredMessage="*" style="width:150px">                                             
+                        <p:ajax listener="#{questionController.onQuestionTypeChange()}" update="display"/>
+                        <f:selectItems value="#{questionController.QuestionTypesArray()}"/>
+                    </p:selectOneMenu>
+                     </f:facet>
+                            <ui:include id="questionTypeView" src ="#{questionController.createquestionTypeView}"/>
+                </p:panelGrid>   
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

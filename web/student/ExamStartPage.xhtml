@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="body">
+            <h:form >
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <p:outputPanel style="alignment-adjust: middle"><h3 style="margin-left:35%">#{bundle.ExamInstructions}</h3></p:outputPanel>
+                <p:fieldset legend="#{examPaper.module.name}" style="margin-bottom:20px">
+                    <p:panelGrid columns="3" style="border-width: 0px">  
+                        <p:panelGrid columns="1">                    
+                            <h3 style="margin-left:5px">#{bundle.ExamDate}: #{examPaper.module.dateOfExam.toLocalDate()} </h3>
+                           
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">                    
+                            <h3 style="margin-left:5px">#{bundle.StartTime}: #{examPaper.module.startTime} hours</h3>
+                           
+                        </p:panelGrid>
+                        <p:panelGrid columns="1">                    
+                           
+                            <h3 style="margin-left:5px">#{bundle.ExamDuration}: #{examPaper.module.duration} hours</h3>
+                        </p:panelGrid>
+                    </p:panelGrid>
+                    <p:separator/>
+                    <p:panelGrid columns="2" style="border-width: 0px">
+
+                        <h:outputText value="Step1:" style="font-weight: bold"/>
+                        <h:outputText value="#{bundle.ExamInstructionStep1}"/>
+                        <h:outputText value="Step2:" style="font-weight: bold"/>
+                        <h:outputText value="#{bundle.ExamInstructionStep2}" />
+                        <h:outputText value="Step3:" style="font-weight: bold"/>
+                        <h:outputText value="#{bundle.ExamInstructionStep3}" />
+                        <h:outputText value="Step4:" style="font-weight: bold"/>
+                        <h:outputText value="#{bundle.ExamInstructionStep4}" />
+                        <br></br>
+                        <br></br>
+                        <h:outputText value="Good Luck..!!!" style="font-weight: bold" />
+                    </p:panelGrid>
+                    <p:separator/>
+
+                    <p:commandButton id="startButton" value="#{bundle.ExamStart}" action= "#{examSessionController.startExam()}" ajax="false"/>
+                </p:fieldset>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

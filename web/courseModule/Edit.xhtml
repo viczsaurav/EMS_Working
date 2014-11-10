@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditCourseModuleTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditCourseModuleLabel_dateOfExam}" for="dateOfExam" />
+                    <h:inputText id="dateOfExam" value="#{courseModuleController.selected.dateOfExam}" title="#{bundle.EditCourseModuleTitle_dateOfExam}" required="true" requiredMessage="#{bundle.EditCourseModuleRequiredMessage_dateOfExam}"/>
+                    <h:outputLabel value="#{bundle.EditCourseModuleLabel_startTime}" for="startTime" />
+                    <h:inputText id="startTime" value="#{courseModuleController.selected.startTime}" title="#{bundle.EditCourseModuleTitle_startTime}" required="true" requiredMessage="#{bundle.EditCourseModuleRequiredMessage_startTime}"/>
+                    <h:outputLabel value="#{bundle.EditCourseModuleLabel_duration}" for="duration" />
+                    <h:inputText id="duration" value="#{courseModuleController.selected.duration}" title="#{bundle.EditCourseModuleTitle_duration}" required="true" requiredMessage="#{bundle.EditCourseModuleRequiredMessage_duration}"/>
+                    <h:outputLabel value="#{bundle.EditCourseModuleLabel_location}" for="location" />
+                    <h:inputText id="location" value="#{courseModuleController.selected.location}" title="#{bundle.EditCourseModuleTitle_location}" required="true" requiredMessage="#{bundle.EditCourseModuleRequiredMessage_location}"/>
+                    <h:outputLabel value="#{bundle.EditCourseModuleLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{courseModuleController.selected.name}" title="#{bundle.EditCourseModuleTitle_name}" required="true" requiredMessage="#{bundle.EditCourseModuleRequiredMessage_name}"/>
+                    <h:outputLabel value="#{bundle.EditCourseModuleLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{courseModuleController.selected.id}" title="#{bundle.EditCourseModuleTitle_id}" />
+                </h:panelGrid>
+                <h:commandLink action="#{courseModuleController.update}" value="#{bundle.EditCourseModuleSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditCourseModuleViewLink}"/>
+                <br />
+                <h:commandLink action="#{courseModuleController.prepareList}" value="#{bundle.EditCourseModuleShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditCourseModuleIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

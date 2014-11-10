@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditExamSessionTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditExamSessionLabel_student}" for="student" />
+                    <h:selectOneMenu id="student" value="#{examSessionController.selected.student}" title="#{bundle.EditExamSessionTitle_student}" >
+                        <f:selectItems value="#{studentController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditExamSessionLabel_examPaper}" for="examPaper" />
+                    <h:selectOneMenu id="examPaper" value="#{examSessionController.selected.examPaper}" title="#{bundle.EditExamSessionTitle_examPaper}" >
+                        <f:selectItems value="#{examPaperController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditExamSessionLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{examSessionController.selected.id}" title="#{bundle.EditExamSessionTitle_id}" />
+                </h:panelGrid>
+                <h:commandLink action="#{examSessionController.update}" value="#{bundle.EditExamSessionSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditExamSessionViewLink}"/>
+                <br />
+                <h:commandLink action="#{examSessionController.prepareList}" value="#{bundle.EditExamSessionShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditExamSessionIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="QuestionMultiAnswerViewDlg" widgetVar="QuestionMultiAnswerViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle}">
+            <h:form id="QuestionMultiAnswerViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{questionMultiAnswerController.selected != null}">
+                        <h:outputText value="#{multiAnswerBundle.ViewQuestionMultiAnswerLabel_choices}"/>
+                        <h:outputText value="#{questionMultiAnswerController.selected.choices}" title="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle_choices}"/>
+                        <h:outputText value="#{multiAnswerBundle.ViewQuestionMultiAnswerLabel_typeOfQuestion}"/>
+                        <h:outputText value="#{questionMultiAnswerController.selected.typeOfQuestion}" title="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle_typeOfQuestion}"/>
+                        <h:outputText value="#{multiAnswerBundle.ViewQuestionMultiAnswerLabel_marks}"/>
+                        <h:outputText value="#{questionMultiAnswerController.selected.marks}" title="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle_marks}"/>
+                        <h:outputText value="#{multiAnswerBundle.ViewQuestionMultiAnswerLabel_text}"/>
+                        <h:outputText value="#{questionMultiAnswerController.selected.text}" title="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle_text}"/>
+                        <h:outputText value="#{multiAnswerBundle.ViewQuestionMultiAnswerLabel_coursemodule}"/>
+                        <h:outputText value="#{questionMultiAnswerController.selected.coursemodule}" title="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle_coursemodule}"/>
+                        <h:outputText value="#{multiAnswerBundle.ViewQuestionMultiAnswerLabel_id}"/>
+                        <h:outputText value="#{questionMultiAnswerController.selected.id}" title="#{multiAnswerBundle.ViewQuestionMultiAnswerTitle_id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{multiAnswerBundle.Close}" onclick="QuestionMultiAnswerViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

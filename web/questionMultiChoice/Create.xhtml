@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="QuestionMultiChoiceCreateDlg" widgetVar="QuestionMultiChoiceCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateQuestionMultiChoiceTitle}">
+            <h:form id="QuestionMultiChoiceCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{questionMultiChoiceController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateQuestionMultiChoiceLabel_choices}" for="choices" />
+                        <p:inputText id="choices" value="#{questionMultiChoiceController.selected.choices}" title="#{bundle.CreateQuestionMultiChoiceTitle_choices}" />
+                        <p:outputLabel value="#{bundle.CreateQuestionMultiChoiceLabel_typeOfQuestion}" for="typeOfQuestion" />
+                        <p:inputText id="typeOfQuestion" value="#{questionMultiChoiceController.selected.typeOfQuestion}" title="#{bundle.CreateQuestionMultiChoiceTitle_typeOfQuestion}" />
+                        <p:outputLabel value="#{bundle.CreateQuestionMultiChoiceLabel_marks}" for="marks" />
+                        <p:inputText id="marks" value="#{questionMultiChoiceController.selected.marks}" title="#{bundle.CreateQuestionMultiChoiceTitle_marks}" required="true" requiredMessage="#{bundle.CreateQuestionMultiChoiceRequiredMessage_marks}"/>
+                        <p:outputLabel value="#{bundle.CreateQuestionMultiChoiceLabel_text}" for="text" />
+                        <p:inputText id="text" value="#{questionMultiChoiceController.selected.text}" title="#{bundle.CreateQuestionMultiChoiceTitle_text}" required="true" requiredMessage="#{bundle.CreateQuestionMultiChoiceRequiredMessage_text}"/>
+                        <p:outputLabel value="#{bundle.CreateQuestionMultiChoiceLabel_coursemodule}" for="coursemodule" />
+                        <p:selectOneMenu id="coursemodule" value="#{questionMultiChoiceController.selected.coursemodule}" >
+                            <f:selectItems value="#{courseModuleController.itemsAvailableSelectOne}"
+                                           var="coursemoduleItem"
+                                           itemValue="#{coursemoduleItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateQuestionMultiChoiceLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{questionMultiChoiceController.selected.id}" title="#{bundle.CreateQuestionMultiChoiceTitle_id}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{questionMultiChoiceController.create}" value="#{bundle.Save}" update="display,:QuestionMultiChoiceListForm:datalist,:growl" oncomplete="handleSubmit(args,'QuestionMultiChoiceCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="QuestionMultiChoiceCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

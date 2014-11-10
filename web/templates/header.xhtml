@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+                <p:menubar>
+                <p:menuitem value="Home" url="/faces/index.xhtml" />
+                <p:submenu label="Exam" icon="ui-icon-document">
+                    <p:menuitem value="Create" url="#" />
+                    <p:separator />
+                    <p:menuitem value="Invigilate" url="#" />
+                    <p:separator />
+                    <p:menuitem value="Take" url="#" />
+                </p:submenu>
+
+                <p:submenu label="Question" icon="ui-icon-pencil">
+                    <p:menuitem value="Create" url="/faces/questionDetails.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:separator />
+                    <p:menuitem value="Modify" url="/faces/questionDetails.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
+                </p:submenu>
+
+                <p:submenu label="Upload" icon="ui-icon-help">
+                    <p:menuitem value="Student" url="/faces/Admin/uploadDetails.xhtml" />
+                    <p:separator />
+                    <p:menuitem value="Lecturer" url="/faces/Admin/uploadDetails.xhtml" />
+                    <p:separator />
+                    <p:menuitem value="Subject" url="/faces/Admin/uploadDetails.xhtml" />
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:outputLabel id="userName" value="Login Name" style="margin-right:10px"/>
+                    <p:commandLink type="button" value="Logout" />
+                </f:facet>
+            </p:menubar>
+            </ui:composition>
+    </h:body>
+</html>
+

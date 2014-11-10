@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="QuestionMultiAnswerEditDlg" widgetVar="QuestionMultiAnswerEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{multiAnswerBundle.EditQuestionMultiAnswerTitle}">
+            <h:form id="QuestionMultiAnswerEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{questionMultiAnswerController.selected != null}">
+                        <p:outputLabel value="#{multiAnswerBundle.EditQuestionMultiAnswerLabel_choices}" for="choices" />
+                        <p:inputText id="choices" value="#{questionMultiAnswerController.selected.choices}" title="#{multiAnswerBundle.EditQuestionMultiAnswerTitle_choices}" />
+                        <p:outputLabel value="#{multiAnswerBundle.EditQuestionMultiAnswerLabel_typeOfQuestion}" for="typeOfQuestion" />
+                        <p:inputText id="typeOfQuestion" value="#{questionMultiAnswerController.selected.typeOfQuestion}" title="#{multiAnswerBundle.EditQuestionMultiAnswerTitle_typeOfQuestion}" />
+                        <p:outputLabel value="#{multiAnswerBundle.EditQuestionMultiAnswerLabel_marks}" for="marks" />
+                        <p:inputText id="marks" value="#{questionMultiAnswerController.selected.marks}" title="#{multiAnswerBundle.EditQuestionMultiAnswerTitle_marks}" required="true" requiredMessage="#{multiAnswerBundle.EditQuestionMultiAnswerRequiredMessage_marks}"/>
+                        <p:outputLabel value="#{multiAnswerBundle.EditQuestionMultiAnswerLabel_text}" for="text" />
+                        <p:inputText id="text" value="#{questionMultiAnswerController.selected.text}" title="#{multiAnswerBundle.EditQuestionMultiAnswerTitle_text}" required="true" requiredMessage="#{multiAnswerBundle.EditQuestionMultiAnswerRequiredMessage_text}"/>
+                        <p:outputLabel value="#{multiAnswerBundle.EditQuestionMultiAnswerLabel_coursemodule}" for="coursemodule" />
+                        <p:selectOneMenu id="coursemodule" value="#{questionMultiAnswerController.selected.coursemodule}" >
+                            <f:selectItem itemLabel="#{multiAnswerBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{courseModuleController.itemsAvailableSelectOne}"
+                                           var="coursemoduleItem"
+                                           itemValue="#{coursemoduleItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{multiAnswerBundle.EditQuestionMultiAnswerLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{questionMultiAnswerController.selected.id}" title="#{multiAnswerBundle.EditQuestionMultiAnswerTitle_id}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{questionMultiAnswerController.update}" value="#{multiAnswerBundle.Save}" update="display,:QuestionMultiAnswerListForm:datalist,:growl" oncomplete="handleSubmit(args, 'QuestionMultiAnswerEditDialog');"/>
+                    <p:commandButton value="#{multiAnswerBundle.Cancel}" onclick="QuestionMultiAnswerEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

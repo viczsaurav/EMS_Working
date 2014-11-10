@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:my="http://java.sun.com/jsf/composite/ezcomp">
+        <div align="center">
+                    <p:outputLabel>
+                        Multi Choice
+                    </p:outputLabel>
+        </div>
+    
+    <my:questionTemplate marksValue="#{questionMultiChoiceController.selected.marks}"
+                             questionText="#{questionMultiChoiceController.selected.text}"
+                             subjectList="#{subjectController.itemsAvailableSelectMany}"
+                             selectedSubjects="#{questionMultiChoiceController.selected.subjects}"
+                             moduleList="#{courseModuleController.itemsAvailableSelectOne}"
+                             selectedModule="#{questionMultiChoiceController.selected.coursemodule}"
+                             rendered="#{questionMultiChoiceController.selected != null}">
+
+        </my:questionTemplate>
+      <p:panelGrid columns="2">
+        <p:commandButton id="addrow" actionListener="#{questionMultiChoiceController.addChoice}" 
+                         update="choiceData" value="Add option" immediate="true">
+        </p:commandButton>
+        <p:dataTable  id="choiceData" scrollable="true" scrollHeight="150" style="width:300px;" rendered="#{questionMultiChoiceController.selected != null}" 
+                      rowIndexVar="rowId" value="#{questionMultiChoiceController.selected.choices}" var="choice">
+            <p:column>
+                <p:panelGrid columns="1">
+                    <h:panelGroup>
+                        <h:inputTextarea style="text-align: left" value="#{choice}"></h:inputTextarea>
+                    <p:commandButton id="delrow" actionListener="#{questionMultiChoiceController.removeChoice(rowId)}" 
+                                     update="choiceData" process="choiceData" value="-">
+                    </p:commandButton>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </p:column>
+        </p:dataTable>
+          <p:commandButton action="#{questionMultiChoiceController.create}" actionListener="#{questionController.prepareList()}" value="#{bundle.Save}" update="display,:QuestionListForm:datalist,:growl" oncomplete="handleSubmit(args,'QuestionCreateDialog');"/>
+        <p:commandButton value="#{bundle.Cancel}" onclick="QuestionCreateDialog.hide()" immediate="true"/>
+    </p:panelGrid>  
+                        
+</ui:composition>
+

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:my="http://java.sun.com/jsf/composite/ezcomp">
+    <div align="center">
+        <p:outputLabel>
+            Multi Answer
+        </p:outputLabel>
+    </div>
+    <my:createquestionTemplate marksValue="#{questionMultiAnswerController.selected.marks}"
+                         questionText="#{questionMultiAnswerController.selected.text}"
+                         subjectList="#{subjectController.itemsAvailableSelectMany}"
+                         selectedSubjects="#{questionMultiAnswerController.selected.subjects}"
+                         moduleList="#{courseModuleController.itemsAvailableSelectOne}"
+                         selectedModule="#{questionMultiAnswerController.selected.coursemodule}"
+                         rendered="#{questionMultiAnswerController.selected != null}">
+
+    </my:createquestionTemplate>
+    <p:panelGrid columns="2">
+        <p:commandButton id="addrow" actionListener="#{questionMultiAnswerController.addChoice}" 
+                         update="choiceData" value="Add option" immediate="true">
+        </p:commandButton>
+        <p:dataTable  id="choiceData" scrollable="true" scrollHeight="150" style="width:300px;" rendered="#{questionMultiAnswerController.selected != null}" 
+                      rowIndexVar="rowId" value="#{questionMultiAnswerController.selected.choices}" var="choice">
+            <p:column>
+                <p:panelGrid columns="1">
+                    <h:panelGroup>
+                        <h:inputTextarea style="text-align: left" value="#{choice}"></h:inputTextarea>
+                    <p:commandButton id="delrow" actionListener="#{questionMultiAnswerController.removeChoice(rowId)}" 
+                                     update="choiceData" process="choiceData" value="-">
+                    </p:commandButton>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </p:column>
+        </p:dataTable>
+        <p:commandButton actionListener="#{questionMultiAnswerController.create}" action="#{questionController.prepareList()}" value="#{bundle.Save}" update="display,:QuestionListForm:datalist,:growl" oncomplete="handleSubmit(args,'QuestionCreateDialog');" ajax="true"/>
+        <p:commandButton value="#{bundle.Cancel}" onclick="QuestionCreateDialog.hide()"/>
+    </p:panelGrid>
+</ui:composition>
+

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+
+    <h:head>
+        <title><ui:insert name="title">Exam Management System</ui:insert></title>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <!--<h:outputStylesheet library="css" name="bootstrap.min.css"/>-->
+        <h:outputStylesheet library="css" name="styles.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <!--<h:outputScript library="js" name="jquery.js"/>-->
+        <!--<h:outputScript library="js" name="bootstrap.min.js"/>-->
+
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="growl" life="3000" />
+
+        <p:layout fullPage="true">
+            <p:layoutUnit  position="north" size="30" header="#{bundle.AppName}">
+            
+            </p:layoutUnit>
+            <p:layoutUnit position="west" size="170">
+                <p:graphicImage library="images" name="EMS_transparent_small.jpg" />
+                <h:form id="menuForm">
+                    <p:slideMenu style="width:160px">
+                        <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                        <p:submenu label="#{bundle.Maintenance}">
+                            <p:menuitem value="CourseModule" outcome="/courseModule/List.xhtml" />
+                            <p:menuitem value="Question" outcome="/question/List.xhtml" />
+                            <p:menuitem value="Subject" outcome="/subject/List.xhtml" />
+                        </p:submenu>
+                        <p:menuitem value="#{bundle.Exams}" outcome="/student/List.xhtml"/>
+                    </p:slideMenu>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="south" size="60">
+                <ui:insert name="footer"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:form>
+                <p:panelGrid columns="4" style="float: right">
+                    <h:outputText value="Time: " style="font-weight: bold"/>
+                    <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+                    <h:outputText value="Welcome #{loginBean.appUser.name}" style="font-weight: bold" />
+                    <h:commandLink action="#{loginBean.logout()}" value="Logout"/>
+                </p:panelGrid>
+                </h:form>
+                <ui:insert name="body"/>
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+
+</html>
