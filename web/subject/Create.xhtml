@@ -14,8 +14,7 @@
                     <p:panelGrid columns="2" rendered="#{subjectController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateSubjectLabel_tagName}" for="tagName" />
                         <p:inputText id="tagName" value="#{subjectController.selected.tagName}" title="#{bundle.CreateSubjectTitle_tagName}" required="true" requiredMessage="#{bundle.CreateSubjectRequiredMessage_tagName}"/>
-                        <p:outputLabel value="#{bundle.CreateSubjectLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{subjectController.selected.id}" title="#{bundle.CreateSubjectTitle_id}" />
+        
                     </p:panelGrid>
                     <p:commandButton actionListener="#{subjectController.create}" value="#{bundle.Save}" update="display,:SubjectListForm:datalist,:growl" oncomplete="handleSubmit(args,'SubjectCreateDialog');"/>
                 </h:panelGroup>

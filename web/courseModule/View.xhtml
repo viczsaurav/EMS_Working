@@ -3,46 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ViewCourseModuleTitle}"></h:outputText>
-        </ui:define>
-        <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewCourseModuleLabel_dateOfExam}"/>
-                    <h:outputText value="#{courseModuleController.selected.dateOfExam}" title="#{bundle.ViewCourseModuleTitle_dateOfExam}"/>
-                    <h:outputText value="#{bundle.ViewCourseModuleLabel_startTime}"/>
-                    <h:outputText value="#{courseModuleController.selected.startTime}" title="#{bundle.ViewCourseModuleTitle_startTime}"/>
-                    <h:outputText value="#{bundle.ViewCourseModuleLabel_duration}"/>
-                    <h:outputText value="#{courseModuleController.selected.duration}" title="#{bundle.ViewCourseModuleTitle_duration}"/>
-                    <h:outputText value="#{bundle.ViewCourseModuleLabel_location}"/>
-                    <h:outputText value="#{courseModuleController.selected.location}" title="#{bundle.ViewCourseModuleTitle_location}"/>
-                    <h:outputText value="#{bundle.ViewCourseModuleLabel_name}"/>
-                    <h:outputText value="#{courseModuleController.selected.name}" title="#{bundle.ViewCourseModuleTitle_name}"/>
-                    <h:outputText value="#{bundle.ViewCourseModuleLabel_id}"/>
-                    <h:outputText value="#{courseModuleController.selected.id}" title="#{bundle.ViewCourseModuleTitle_id}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{courseModuleController.destroyAndView}" value="#{bundle.ViewCourseModuleDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewCourseModuleEditLink}"/>
-                <br />
-                <h:commandLink action="#{courseModuleController.prepareCreate}" value="#{bundle.ViewCourseModuleCreateLink}" />
-                <br />
-                <h:commandLink action="#{courseModuleController.prepareList}" value="#{bundle.ViewCourseModuleShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewCourseModuleIndexLink}"/>
+    <ui:composition>
 
+        <p:dialog id="CourseModuleViewDlg" widgetVar="CourseModuleViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCourseModuleTitle}">
+            <h:form id="CourseModuleViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{courseModuleController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCourseModuleLabel_name}"/>
+                        <h:outputText value="#{courseModuleController.selected.name}" title="#{bundle.ViewCourseModuleTitle_name}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="CourseModuleViewDialog.hide()"/>
+                </h:panelGroup>
             </h:form>
-        </ui:define>
-    </ui:composition>
+        </p:dialog>
 
+    </ui:composition>
 </html>

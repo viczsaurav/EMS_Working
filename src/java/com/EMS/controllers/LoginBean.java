@@ -8,8 +8,12 @@ package com.EMS.controllers;
 //import com.EMS.entities.LoginFacade;
 import com.EMS.ejb.UserFacade;
 import com.EMS.entities.User;
+import com.EMS.enums.UserAgentType;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -17,8 +21,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.jboss.weld.util.collections.EnumerationList;
 
 /**
  *
@@ -29,14 +35,16 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     private String username, password;
     //@EJB private LoginFacade loginFacade;
 
     @Inject
     private User appUser;
 
-    @EJB private UserFacade userFacade;
-    
+    @EJB
+    private UserFacade userFacade;
+
     private User user;
 
     public User getUser() {
@@ -46,8 +54,7 @@ public class LoginBean implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    
+
     public User getAppUser() {
         return appUser;
     }
@@ -55,7 +62,6 @@ public class LoginBean implements Serializable {
     public void setAppUser(User appUser) {
         this.appUser = appUser;
     }
-    
 
     public String getUsername() {
         return username;
@@ -76,6 +82,8 @@ public class LoginBean implements Serializable {
     public String login() throws SQLException, ServletException {
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
+        String headerName;
+        int userAgent = 0; // For Web, default = 0, for Mobile=1
 
         if (this.password.equalsIgnoreCase("password")) {
             return "/register?faces-redirect=true";
@@ -85,6 +93,12 @@ public class LoginBean implements Serializable {
         try {
             if (req.getRemoteUser() == null) {
                 req.login(username, password);
+                headerName = req.getHeaders("user-agent").nextElement().toLowerCase();
+                if (headerName.contains(UserAgentType.android.toString())
+                        || headerName.contains(UserAgentType.iphone.toString())
+                        || headerName.contains(UserAgentType.windows.toString())) {
+                    userAgent = 1; // For Mobile
+                }
             }
         } catch (ServletException e) {
             fc.addMessage(null, new FacesMessage(e.getMessage()));
@@ -93,11 +107,12 @@ public class LoginBean implements Serializable {
 
         //if(loginFacade.loginCheck(username, password).equals(msg)){
         if (req.isUserInRole("student")) {
-            appUser = userFacade.fetchUser(req.getRemoteUser());   
-            System.out.println(">>>> + "+ appUser.getName()+" ,"+ appUser.getRole()+" ,"+appUser.getLoginId());
-            return "student/ExamView?faces-redirect=true";
+            appUser = userFacade.fetchUser(req.getRemoteUser());
+            String returnLink = (userAgent == 1) ? "student/StudentExamTimeTable?faces-redirect=true" : "student/ExamView?faces-redirect=true";
+            System.out.println("returnlink"+ returnLink);
+            return returnLink;
         } else if (req.isUserInRole("lecturer")) {
-           
+            UserAgentType.values();
             return "/faces/Lecturer/*";
         } else if (req.isUserInRole("admin")) {
             return "/faces/Admin/*";
@@ -116,7 +131,7 @@ public class LoginBean implements Serializable {
             context.addMessage(null, new FacesMessage("Logout failed."));
             return null;
         }
-        return "/login";
+        return "/login?faces-redirect=true";
     }
 
 }

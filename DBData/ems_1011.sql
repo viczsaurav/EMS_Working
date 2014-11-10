@@ -39,7 +39,7 @@ CREATE TABLE `COURSEMODULE` (
 
 LOCK TABLES `COURSEMODULE` WRITE;
 /*!40000 ALTER TABLE `COURSEMODULE` DISABLE KEYS */;
-INSERT INTO `COURSEMODULE` VALUES (1,'2014-11-17',3,'MPSH','Object Oriented Analysis and Design','19:00:00'),(2,'2014-11-18',3,'MPSH','Object Oriented Design Patterns','19:00:00'),(3,'2014-11-19',3,'MPSH','Advanced Estimation','19:00:00'),(4,'2014-11-20',3,'MPSH','J2EE','19:00:00'),(5,'2014-11-21',3,'MPSH','Human Computer Interface','19:00:00'),(6,'2014-11-22',3,'MPSH','Software Quality Management','19:00:00');
+INSERT INTO `COURSEMODULE` VALUES (1,'2014-11-17',3,'MPSH','Object Oriented Analysis and Design','19:00:00'),(2,'2014-11-18',3,'MPSH','Object Oriented Design Patterns','19:00:00'),(3,'2014-11-19',3,'MPSH','Advanced Estimation','19:00:00'),(4,'2014-11-20',3,'MPSH','Entreprise Java','19:00:00'),(5,'2014-11-21',3,'MPSH','Human Computer Interface','19:00:00'),(6,'2014-11-22',3,'MPSH','Software Quality Management','19:00:00');
 /*!40000 ALTER TABLE `COURSEMODULE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,8 +84,8 @@ CREATE TABLE `EXAMSESSION` (
   PRIMARY KEY (`ID`),
   KEY `FK_EXAMSESSION_EXAMPAPER_ID` (`EXAMPAPER_ID`),
   KEY `FK_EXAMSESSION_STUDENT_ID` (`STUDENT_ID`),
-  CONSTRAINT `FK_EXAMSESSION_STUDENT_ID` FOREIGN KEY (`STUDENT_ID`) REFERENCES `STUDENT` (`ID`),
-  CONSTRAINT `FK_EXAMSESSION_EXAMPAPER_ID` FOREIGN KEY (`EXAMPAPER_ID`) REFERENCES `EXAMPAPER` (`ID`)
+  CONSTRAINT `FK_EXAMSESSION_EXAMPAPER_ID` FOREIGN KEY (`EXAMPAPER_ID`) REFERENCES `EXAMPAPER` (`ID`),
+  CONSTRAINT `FK_EXAMSESSION_STUDENT_ID` FOREIGN KEY (`STUDENT_ID`) REFERENCES `STUDENT` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,7 +115,7 @@ CREATE TABLE `QUESTION` (
   PRIMARY KEY (`ID`),
   KEY `FK_QUESTION_COURSEMODULE_ID` (`COURSEMODULE_ID`),
   CONSTRAINT `FK_QUESTION_COURSEMODULE_ID` FOREIGN KEY (`COURSEMODULE_ID`) REFERENCES `COURSEMODULE` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +124,7 @@ CREATE TABLE `QUESTION` (
 
 LOCK TABLES `QUESTION` WRITE;
 /*!40000 ALTER TABLE `QUESTION` DISABLE KEYS */;
+INSERT INTO `QUESTION` VALUES (1,'ESSAY',2,'What is boiling point of water?','ESSAY',2),(2,'MULTI_CHOICE',56,'Hwllo worled?','MULTI_CHOICE',3),(3,'MULTI_CHOICE',56,'Hwllo worled?','MULTI_CHOICE',4);
 /*!40000 ALTER TABLE `QUESTION` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +137,6 @@ DROP TABLE IF EXISTS `QUESTIONMULTIANSWER`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUESTIONMULTIANSWER` (
   `id` bigint(20) NOT NULL,
-  `CHOICES` longblob,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_QUESTIONMULTIANSWER_id` FOREIGN KEY (`id`) REFERENCES `QUESTION` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -160,7 +160,6 @@ DROP TABLE IF EXISTS `QUESTIONMULTICHOICE`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `QUESTIONMULTICHOICE` (
   `id` bigint(20) NOT NULL,
-  `CHOICES` longblob,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_QUESTIONMULTICHOICE_id` FOREIGN KEY (`id`) REFERENCES `QUESTION` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -172,6 +171,7 @@ CREATE TABLE `QUESTIONMULTICHOICE` (
 
 LOCK TABLES `QUESTIONMULTICHOICE` WRITE;
 /*!40000 ALTER TABLE `QUESTIONMULTICHOICE` DISABLE KEYS */;
+INSERT INTO `QUESTIONMULTICHOICE` VALUES (2),(3);
 /*!40000 ALTER TABLE `QUESTIONMULTICHOICE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +198,57 @@ CREATE TABLE `QUESTION_SUBJECT` (
 
 LOCK TABLES `QUESTION_SUBJECT` WRITE;
 /*!40000 ALTER TABLE `QUESTION_SUBJECT` DISABLE KEYS */;
+INSERT INTO `QUESTION_SUBJECT` VALUES (2,1),(1,2),(2,2),(3,2),(1,3),(2,3),(3,3);
 /*!40000 ALTER TABLE `QUESTION_SUBJECT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `QuestionMultiAnswer_CHOICES`
+--
+
+DROP TABLE IF EXISTS `QuestionMultiAnswer_CHOICES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `QuestionMultiAnswer_CHOICES` (
+  `QuestionMultiAnswer_ID` bigint(20) DEFAULT NULL,
+  `CHOICES` varchar(255) DEFAULT NULL,
+  KEY `QuestionMultiAnswer_CHOICES_QuestionMultiAnswer_ID` (`QuestionMultiAnswer_ID`),
+  CONSTRAINT `QuestionMultiAnswer_CHOICES_QuestionMultiAnswer_ID` FOREIGN KEY (`QuestionMultiAnswer_ID`) REFERENCES `QUESTION` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `QuestionMultiAnswer_CHOICES`
+--
+
+LOCK TABLES `QuestionMultiAnswer_CHOICES` WRITE;
+/*!40000 ALTER TABLE `QuestionMultiAnswer_CHOICES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `QuestionMultiAnswer_CHOICES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `QuestionMultiChoice_CHOICES`
+--
+
+DROP TABLE IF EXISTS `QuestionMultiChoice_CHOICES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `QuestionMultiChoice_CHOICES` (
+  `QuestionMultiChoice_ID` bigint(20) DEFAULT NULL,
+  `CHOICES` varchar(255) DEFAULT NULL,
+  KEY `QuestionMultiChoice_CHOICES_QuestionMultiChoice_ID` (`QuestionMultiChoice_ID`),
+  CONSTRAINT `QuestionMultiChoice_CHOICES_QuestionMultiChoice_ID` FOREIGN KEY (`QuestionMultiChoice_ID`) REFERENCES `QUESTION` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `QuestionMultiChoice_CHOICES`
+--
+
+LOCK TABLES `QuestionMultiChoice_CHOICES` WRITE;
+/*!40000 ALTER TABLE `QuestionMultiChoice_CHOICES` DISABLE KEYS */;
+INSERT INTO `QuestionMultiChoice_CHOICES` VALUES (3,'Choice 0'),(3,'Choice 1'),(3,'Choice 2');
+/*!40000 ALTER TABLE `QuestionMultiChoice_CHOICES` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -252,7 +302,7 @@ CREATE TABLE `STUDENT` (
 
 LOCK TABLES `STUDENT` WRITE;
 /*!40000 ALTER TABLE `STUDENT` DISABLE KEYS */;
-INSERT INTO `STUDENT` VALUES (1,'Abhinav Gupta',1),(2,'Nisith Singh',2),(4,'Sharique Azam',4);
+INSERT INTO `STUDENT` VALUES (1,'Abhinav',1),(2,'Nisith',2),(4,'Sharique',4);
 /*!40000 ALTER TABLE `STUDENT` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +344,7 @@ CREATE TABLE `SUBJECT` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `TAGNAME` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,6 +353,7 @@ CREATE TABLE `SUBJECT` (
 
 LOCK TABLES `SUBJECT` WRITE;
 /*!40000 ALTER TABLE `SUBJECT` DISABLE KEYS */;
+INSERT INTO `SUBJECT` VALUES (1,'Physics'),(2,'Chemistry'),(3,'Mathematics');
 /*!40000 ALTER TABLE `SUBJECT` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -317,6 +368,7 @@ CREATE TABLE `USER` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ISFIRSTLOGIN` varchar(255) DEFAULT NULL,
   `LOGINID` varchar(255) DEFAULT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
   `PASSWORD` varchar(255) DEFAULT NULL,
   `ROLE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
@@ -329,8 +381,56 @@ CREATE TABLE `USER` (
 
 LOCK TABLES `USER` WRITE;
 /*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-INSERT INTO `USER` VALUES (1,'Y','Abhinav','password','student'),(2,'Y','Nisith','password','student'),(3,'N','Dilbert','password','lecturer'),(4,'Y','Sharique','password','student');
+INSERT INTO `USER` VALUES (1,'Y','abhinav','Abhinav','password','student'),(2,'Y','nisith','Nisith','password','student'),(3,'N','dilbert','Dilbert','password','lecturer'),(4,'Y','sharique','Sharique','password','student');
 /*!40000 ALTER TABLE `USER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USERACCESS`
+--
+
+DROP TABLE IF EXISTS `USERACCESS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USERACCESS` (
+  `USERID` varchar(255) NOT NULL,
+  `PASSWORD` varchar(255) NOT NULL,
+  `ISFIRSTLOGIN` char(1) NOT NULL DEFAULT 'Y',
+  PRIMARY KEY (`USERID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USERACCESS`
+--
+
+LOCK TABLES `USERACCESS` WRITE;
+/*!40000 ALTER TABLE `USERACCESS` DISABLE KEYS */;
+INSERT INTO `USERACCESS` VALUES ('abhinav','test','N'),('dilbert','password','N'),('nisith','test','N'),('sharique','password','Y');
+/*!40000 ALTER TABLE `USERACCESS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USERACCESS_GROUPS`
+--
+
+DROP TABLE IF EXISTS `USERACCESS_GROUPS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USERACCESS_GROUPS` (
+  `GROUPID` varchar(255) NOT NULL,
+  `USERID` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USERACCESS_GROUPS`
+--
+
+LOCK TABLES `USERACCESS_GROUPS` WRITE;
+/*!40000 ALTER TABLE `USERACCESS_GROUPS` DISABLE KEYS */;
+INSERT INTO `USERACCESS_GROUPS` VALUES ('student','abhinav'),('student','nisith'),('lecturer','dilbert'),('student','sharique');
+/*!40000 ALTER TABLE `USERACCESS_GROUPS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -342,4 +442,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-05  5:22:35
+-- Dump completed on 2014-11-10 17:14:26

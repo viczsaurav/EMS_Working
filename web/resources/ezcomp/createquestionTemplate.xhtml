@@ -34,7 +34,8 @@
             <p:selectOneMenu id="coursemodule" value="#{cc.attrs.selectedModule}" >
                 <f:selectItems value="#{cc.attrs.moduleList}"
                                var="coursemoduleItem"
-                               itemValue="#{coursemoduleItem}"/>
+                               itemValue="#{coursemoduleItem}"
+                               itemLabel="#{coursemoduleItem.name}"/>
             </p:selectOneMenu>
         </p:panelGrid>
 

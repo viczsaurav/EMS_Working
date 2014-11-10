@@ -10,9 +10,8 @@
                     <p:outputLabel>
                         Multi Choice
                     </p:outputLabel>
-        </div>
-    
-    <my:questionTemplate marksValue="#{questionMultiChoiceController.selected.marks}"
+        </div>   
+    <my:createquestionTemplate marksValue="#{questionMultiChoiceController.selected.marks}"
                              questionText="#{questionMultiChoiceController.selected.text}"
                              subjectList="#{subjectController.itemsAvailableSelectMany}"
                              selectedSubjects="#{questionMultiChoiceController.selected.subjects}"
@@ -20,7 +19,7 @@
                              selectedModule="#{questionMultiChoiceController.selected.coursemodule}"
                              rendered="#{questionMultiChoiceController.selected != null}">
 
-        </my:questionTemplate>
+        </my:createquestionTemplate>
       <p:panelGrid columns="2">
         <p:commandButton id="addrow" actionListener="#{questionMultiChoiceController.addChoice}" 
                          update="choiceData" value="Add option" immediate="true">

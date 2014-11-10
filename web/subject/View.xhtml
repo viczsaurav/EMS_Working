@@ -14,8 +14,7 @@
                     <p:panelGrid columns="2" rendered="#{subjectController.selected != null}">
                         <h:outputText value="#{bundle.ViewSubjectLabel_tagName}"/>
                         <h:outputText value="#{subjectController.selected.tagName}" title="#{bundle.ViewSubjectTitle_tagName}"/>
-                        <h:outputText value="#{bundle.ViewSubjectLabel_id}"/>
-                        <h:outputText value="#{subjectController.selected.id}" title="#{bundle.ViewSubjectTitle_id}"/>
+                       
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="SubjectViewDialog.hide()"/>
                 </h:panelGroup>
