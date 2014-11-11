@@ -18,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 /**
@@ -32,8 +31,7 @@ public class Section extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String sectionName;
-    
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Question> questions;
 
     private int sectionTotalMarks;

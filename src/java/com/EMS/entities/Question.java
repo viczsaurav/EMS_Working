@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @SessionScoped
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "QuestionType")
 @DiscriminatorValue("ESSAY")
 @XmlRootElement
@@ -39,9 +39,6 @@ public class Question extends AbstractEntity implements Serializable {
     
     @Basic(optional = false)
     private String text;
-    
-    @ManyToOne
-    private Section section;
     
     @ManyToOne
     private CourseModule coursemodule;
@@ -58,6 +55,7 @@ public class Question extends AbstractEntity implements Serializable {
     @Basic(optional = true)
     @Enumerated(EnumType.STRING)
     private QuestionTypes typeOfQuestion;
+    
 
     public QuestionTypes getTypeOfQuestion() {
         return typeOfQuestion;

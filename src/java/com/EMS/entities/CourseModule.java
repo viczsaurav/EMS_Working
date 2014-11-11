@@ -16,6 +16,9 @@ import javax.persistence.CascadeType;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,6 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author mani
  */
+@NamedQueries(
+        {@NamedQuery(name = "CourseModule.findByModuleId", query = "SELECT c FROM CourseModule c WHERE c.name = :name")})
+
 @ViewScoped
 @Entity
 @XmlRootElement
@@ -46,6 +52,9 @@ public class CourseModule extends AbstractEntity implements Serializable {
 
     @Basic(optional = false)
     private String location;
+    
+    @ManyToMany
+    private List<Student> students;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "coursemodule")
     private List<Question> questions;
@@ -54,6 +63,14 @@ public class CourseModule extends AbstractEntity implements Serializable {
 
     public long getTimeToStart() {
         return timeToStart;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public void setTimeToStart(long timeToStart) {

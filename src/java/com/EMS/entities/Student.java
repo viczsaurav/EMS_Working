@@ -7,7 +7,12 @@ package com.EMS.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,8 +36,12 @@ public class Student extends AbstractEntity implements Serializable {
     private String name;
     @OneToOne
     private AppUser user;
-    @OneToMany
-    private Collection<CourseModule> enrolledModules;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "STUDENT_COURSEMODULES", joinColumns
+            = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns
+            = @JoinColumn(name = "COURSE_ID"))
+    private List<CourseModule> enrolledModules;
 
     public AppUser getUser() {
         return user;
@@ -50,11 +59,11 @@ public class Student extends AbstractEntity implements Serializable {
         this.name = name;
     }
 
-    public Collection<CourseModule> getEnrolledModules() {
+    public List<CourseModule> getEnrolledModules() {
         return enrolledModules;
     }
 
-    public void setEnrolledModules(Collection<CourseModule> enrolledModules) {
+    public void setEnrolledModules(List<CourseModule> enrolledModules) {
         this.enrolledModules = enrolledModules;
     }
 

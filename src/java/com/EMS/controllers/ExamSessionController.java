@@ -1,6 +1,7 @@
 package com.EMS.controllers;
 
 import com.EMS.ejb.ExamAnswersFacade;
+import com.EMS.ejb.ExamPaperFacade;
 import com.EMS.entities.ExamPaper;
 import com.EMS.entities.ExamSession;
 import com.EMS.ejb.ExamSessionFacade;
@@ -37,17 +38,43 @@ import javax.inject.Inject;
 public class ExamSessionController implements Serializable {
 
     private ExamSession current;
+
+    public ExamPaper getePaper() {
+        return ePaper;
+    }
+
+    public ExamSession getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(ExamSession current) {
+        this.current = current;
+    }
+
+    public int getSelectedItemIndex() {
+        return selectedItemIndex;
+    }
+
+    public void setSelectedItemIndex(int selectedItemIndex) {
+        this.selectedItemIndex = selectedItemIndex;
+    }
+
+    public void setePaper(ExamPaper ePaper) {
+        this.ePaper = ePaper;
+    }
     private DataModel items = null;
     @EJB
-    private com.EMS.ejb.ExamSessionFacade ejbFacade;
+    private com.EMS.ejb.ExamSessionFacade examSessionEjb;
     @EJB
     QuestionFacade questionEjb;
     @EJB
     QuestionMultiAnswerFacade multAnsEjb;
     @EJB
     QuestionMultiChoiceFacade multChoiceEjb;
-    @EJB 
+    @EJB
     ExamAnswersFacade examAnswersEjb;
+    @EJB
+    private ExamPaperFacade epaperEjb;
 
     private PaginationHelper pagination;
     private int selectedItemIndex;
@@ -74,9 +101,8 @@ public class ExamSessionController implements Serializable {
 
     public ExamSessionController() {
         externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        
-    }
 
+    }
 
     public String getSingleAnswer() {
         return singleAnswer;
@@ -102,17 +128,21 @@ public class ExamSessionController implements Serializable {
         this.currentQuestion = currentQuestion;
     }
 
-
     public String startExam() {
-        listOfQuestions = questionEjb.findAll();
+        current = new ExamSession();
+        current.setExamPaper(epaperEjb.fetchExamPaper(ePaper.getModule()));
+        current.setStudent(logged.getUser().getStudent());
+        current.setIsActiveSession(Boolean.TRUE);
+        examSessionEjb.create(current);
+        current = examSessionEjb.fetchExamPaper(current.getExamPaper(), current.getStudent());
+        listOfQuestions = current.getExamPaper().getSection().get(0).getQuestions();
         itrQuestion = listOfQuestions.iterator();
         currentQuestion = itrQuestion.next();
         singleAnswer = "";
-        
+
         examAnswers = new ExamAnswers();
         examAnswers.setExamSession(current);
-        
-        
+        examAnswers.setQuestion(currentQuestion);
         return "LiveExamPage";
     }
 
@@ -124,34 +154,38 @@ public class ExamSessionController implements Serializable {
         this.listOfQuestions = listOfQuestions;
     }
 
-    public void retrieveNextQuestion() {
+    public String retrieveNextQuestion() {
+        examAnswers.setAnswers(answerType(currentQuestion));
         if (itrQuestion.hasNext()) {
+            examAnswersEjb.create(examAnswers);
             examAnswers = new ExamAnswers();
             examAnswers.setQuestion(currentQuestion);
             examAnswers.setExamSession(current);
-            examAnswers.setAnswers(answerType(currentQuestion));
-            System.out.println("question :"+examAnswers.getQuestion().getText());
-            System.out.println("Session :"+examAnswers.getExamSession().getStudent().getName());
-            System.out.println("Answer :"+examAnswers.getAnswers().toString());
-//            examAnswersEjb.create(examAnswers);    
+
+            System.out.println("question :" + examAnswers.getQuestion().getText());
+            System.out.println("Session :" + examAnswers.getExamSession().getStudent().getName());
+//          
             currentQuestion = itrQuestion.next();
+            return (null);
         } else {
+            examAnswersEjb.create(examAnswers);
             currentQuestion = null;
+            current.setIsActiveSession(Boolean.FALSE);
+            examSessionEjb.edit(current);
+            return ("ExamView?faces-redirect=true");
         }
+
     }
-    
+
     //Helper to choose the type of answer based on the question;
     private List<String> answerType(Question currentQuestion) {
         List<String> answers = new ArrayList<String>();
-        
-        if(currentQuestion.getTypeOfQuestion() == QuestionTypes.ESSAY || currentQuestion.getTypeOfQuestion() == QuestionTypes.MULTI_CHOICE)
-        {
-             System.out.println("Single Answer :"+singleAnswer);
+
+        if (currentQuestion.getTypeOfQuestion() == QuestionTypes.ESSAY || currentQuestion.getTypeOfQuestion() == QuestionTypes.MULTI_CHOICE) {
+            System.out.println("Single Answer :" + singleAnswer);
             answers.add(singleAnswer);
-        }
-        else
-        {
-              System.out.println("Multi Answer :"+multiAnswers);
+        } else {
+            System.out.println("Multi Answer :" + multiAnswers);
             answers = multiAnswers;
         }
         return answers;
@@ -179,7 +213,7 @@ public class ExamSessionController implements Serializable {
     }
 
     private ExamSessionFacade getFacade() {
-        return ejbFacade;
+        return examSessionEjb;
     }
 
     public PaginationHelper getPagination() {
@@ -319,17 +353,16 @@ public class ExamSessionController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(examSessionEjb.findAll(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(examSessionEjb.findAll(), true);
     }
 
     public ExamSession getExamSession(java.lang.Long id) {
-        return ejbFacade.find(id);
+        return examSessionEjb.find(id);
     }
-
 
     @FacesConverter(forClass = ExamSession.class)
     public static class ExamSessionControllerConverter implements Converter {

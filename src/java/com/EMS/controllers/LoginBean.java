@@ -107,7 +107,7 @@ public class LoginBean implements Serializable {
         } else if (req.isUserInRole("lecturer")) {
             return "/Lecturer/question/List.xhtml?faces-redirect=true";
         } else if (req.isUserInRole("admin")) {
-            return "/Admin/courseModule/List.xhtml?faces-redirect=true";
+            return "/Admin/uploadDetails.xhtml?faces-redirect=true";
         } else {
             return "template?faces-redirect=true";
         }

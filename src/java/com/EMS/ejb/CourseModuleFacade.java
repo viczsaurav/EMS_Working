@@ -6,9 +6,12 @@
 package com.EMS.ejb;
 
 import com.EMS.entities.CourseModule;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,6 +29,18 @@ public class CourseModuleFacade extends AbstractFacade<CourseModule> {
 
     public CourseModuleFacade() {
         super(CourseModule.class);
+    }
+    
+    public CourseModule findByModuleId(String courseModuleName){
+        TypedQuery<CourseModule> query = em.createNamedQuery("CourseModule.findByModuleId", CourseModule.class);
+        
+        query.setParameter("name", courseModuleName);
+        List<CourseModule> courseModules = query.getResultList();
+        if (courseModules.size() > 0) {
+            return courseModules.get(0);
+        } else {
+            return null;
+        }
     }
     
 }

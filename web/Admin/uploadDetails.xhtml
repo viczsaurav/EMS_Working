@@ -6,24 +6,33 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Upload Details</title>
     </h:head>
     <h:body>
-        <ui:composition template="/templates/pagetemplate.xhtml">
-            <ui:define name="content">   
-                <h:panelGrid>
-                    <h:form enctype="multipart/form-data">
-                        <div>    
-                            <div><h:inputFile id="inputfile" required="true" requiredMessage="No file selected!" value="#{maintainUser.file}">
-                                    <f:validator validatorId="FileUploadValidator"/>
-                                </h:inputFile></div>
-                            <div><h:commandButton value="Upload" id="upload" actionListener = "#{maintainUser.uploadStudents()}"/> </div>
-                            <h:outputText value="Files with .csv are only accepted"/>
-                        </div>
-                    </h:form>
-                </h:panelGrid>
+        <ui:composition template="/template.xhtml">
+            <ui:define name="body"> 
+                <p:outputPanel style="alignment-adjust: middle"><h3 style="margin-left:35%">Upload files</h3></p:outputPanel>
+                <p:fieldset legend="Upload" style="margin-top: 20px">
+                    <h:panelGrid>
+                        <h:form enctype="multipart/form-data">
+                            <div>    
+                                <div><h:inputFile id="inputfile" required="true" requiredMessage="No file selected!" value="#{maintainUserController.file}">
+                                        <f:validator validatorId="FileUploadValidator"/>
+                                    </h:inputFile></div>
+                                <p:selectOneMenu value="#{maintainUserController.selectedUploadType}" >
+                                    <f:selectItem itemValue="" itemLabel="Select One" />
+                                    <f:selectItems value="#{maintainUserController.UploadTypes()}"
+                                                   />
+                                </p:selectOneMenu> 
+                                <div><h:commandButton value="Upload" id="upload" 
+                                                      actionListener = "#{maintainUserController.upload()}"/> 
+                                </div>
+                                <h:outputText value="Files with .csv are only accepted"/>
+                            </div>
+                        </h:form>
+                    </h:panelGrid>
+                </p:fieldset>
             </ui:define>     
         </ui:composition>
     </h:body>
 </html>
-

@@ -9,7 +9,7 @@
     <h:head>
         <title>Create Exam</title>
     </h:head>
-    <ui:composition template="/ExamPageTemplate.xhtml">
+    <ui:composition template="/template.xhtml">
         <ui:define name="body">
             <h:form id="exampaperform">
                 <p:panelGrid columns="2" id="examdetailsgrid">
@@ -19,7 +19,7 @@
                         <f:ajax listener="#{examPaperController.onSelectedModuleChange()}" 
                                 render="@form" execute="@form"/>
                         <f:selectItem itemLabel="Select One" itemValue="" />
-                        <f:selectItems value="#{examPaperController.courseModules}" 
+                        <f:selectItems value="#{examPaperController.courseModules}" var="courseModule"
                                        itemLabel="#{courseModule.name}" itemValue="#{courseModule}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>

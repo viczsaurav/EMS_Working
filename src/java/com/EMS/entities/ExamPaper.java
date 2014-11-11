@@ -18,6 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -28,6 +30,12 @@ import javax.persistence.OneToOne;
 @SessionScoped
 @Entity
 @Named
+
+@NamedQueries({
+    @NamedQuery(name = "ExamPaper.findAll", query = "SELECT s FROM ExamPaper s"),
+    @NamedQuery(name = "ExamPaper.findById", query = "SELECT s FROM ExamPaper s WHERE s.id = :id"),
+    @NamedQuery(name = "ExamPaper.findByModule", query = "SELECT s FROM ExamPaper s WHERE s.module = :module")})
+
 public class ExamPaper extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

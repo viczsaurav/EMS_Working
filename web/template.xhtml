@@ -39,7 +39,11 @@
                                         outcome="/Lecturer/examPaper/ListExams.xhtml"/>
                             <p:menuitem value="Create Exam" outcome="/Lecturer/examPaper/createExam.xhtml"/>
                         </p:submenu>
-                        <p:menuitem value="" />
+                        <p:menuitem value="View Active Sessions" outcome="/Lecturer/List.xhtml"
+                                    rendered="#{loginBean.user.role=='lecturer'}"/>
+                        
+                        <p:menuitem value="UPLOAD DETAILS" outcome="/Admin/uploadDetails.xhtml" icon="ui-icon-home"
+                                    rendered="#{loginBean.user.role=='admin'}"/>
                         <p:submenu label="#{bundle.Maintenance}" rendered="#{loginBean.user.role=='admin'}">
                             <p:menuitem value="Course Modules" outcome="/Admin/courseModule/List.xhtml" />
                             <p:menuitem value="Subject Tags" outcome="/Admin/subject/List.xhtml" />                            

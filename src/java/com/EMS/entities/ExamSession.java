@@ -6,16 +6,23 @@
 package com.EMS.entities;
 
 import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author mani
  */
 @Entity
-@ViewScoped
+@SessionScoped
+@NamedQueries({
+    @NamedQuery(name = "ExamSession.findAll", query = "SELECT s FROM ExamSession s"),
+    @NamedQuery(name = "ExamSession.findById", query = "SELECT s FROM ExamSession s WHERE s.id = :id"),
+    @NamedQuery(name = "ExamSession.findCurrent", query = "SELECT s FROM ExamSession s WHERE s.examPaper = :ePaper AND s.student = :student")})
 public class ExamSession extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,6 +34,14 @@ public class ExamSession extends AbstractEntity implements Serializable {
     private Student student;
 
     private Boolean isActiveSession = false;
+
+    public Boolean getIsActiveSession() {
+        return isActiveSession;
+    }
+
+    public void setIsActiveSession(Boolean isActiveSession) {
+        this.isActiveSession = isActiveSession;
+    }
 
     public Student getStudent() {
         return student;
