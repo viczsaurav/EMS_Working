@@ -1,4 +1,4 @@
-
+use ems;
 CREATE TABLE `USERACCESS` (
   `USERID` varchar(255) NOT NULL,
   `PASSWORD` varchar(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `USERACCESS_GROUPS` (
 
 INSERT INTO `USERACCESS_GROUPS` VALUES ('student','abhinav'),('student','nisith'),('lecturer','dilbert'),('student','sharique');
 
-INSERT INTO `USER` VALUES (1,'Y','abhinav','Abhinav','password','student'),(2,'Y','nisith','Nisith','password','student'),(3,'N','dilbert','Dilbert','password','lecturer'),(4,'Y','sharique','Sharique','password','student');
+INSERT INTO `APPUSER` VALUES (1,'Y','abhinav','Abhinav','password','student'),(2,'Y','nisith','Nisith','password','student'),(3,'N','dilbert','Dilbert','password','lecturer'),(4,'Y','sharique','Sharique','password','student');
 
 INSERT INTO `COURSEMODULE` VALUES (1,'2014-11-17',3,'MPSH','Object Oriented Analysis and Design','19:00:00'),(2,'2014-11-18',3,'MPSH','Object Oriented Design Patterns','19:00:00'),(3,'2014-11-19',3,'MPSH','Advanced Estimation','19:00:00'),(4,'2014-11-20',3,'MPSH','Entreprise Java','19:00:00'),(5,'2014-11-21',3,'MPSH','Human Computer Interface','19:00:00'),(6,'2014-11-22',3,'MPSH','Software Quality Management','19:00:00');
 
@@ -28,3 +28,9 @@ INSERT INTO `QuestionMultiChoice_CHOICES` VALUES (3,'Choice 0'),(3,'Choice 1'),(
 INSERT INTO `SUBJECT` VALUES (1,'Physics'),(2,'Chemistry'),(3,'Mathematics');
 
 INSERT INTO `QUESTION_SUBJECT` VALUES (2,1),(1,2),(2,2),(3,2),(1,3),(2,3),(3,3);
+
+INSERT INTO `STUDENT` VALUES (1,'Abhinav',1),(2,'Nisith',2),(4,'Sharique',4);
+
+INSERT INTO `STUDENT_COURSEMODULE` VALUES (1,1),(2,1),(4,1),(1,2),(2,2),(4,2),(1,3),(2,3),(4,4);
+
+INSERT INTO `LECTURER` VALUES (1,'Dilbert',3);

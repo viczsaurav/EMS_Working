@@ -34,9 +34,8 @@
                                 <h:outputText value="#{item.location}" style="font-weight: bold"/>
                             </h:panelGrid>
                         </p:outputPanel>
-                        <h:commandButton action="#{studentController.prepareExamView(item)}" 
-                                         value="#{bundle.ProceedWithExam}"/> 
-                        
+                        <p:commandButton id="proceedButton" value="#{bundle.ProceedWithExam}"
+                                         action= "#{studentController.prepareExamView(item)}" ajax="false"/>
                     </h:panelGrid>
                     <p:separator/>
                 </p:dataScroller>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListQuestionTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <p:dataTable id="datalist" value="#{examPaperController.examPapers}" var="item"
+                         selectionMode="single" selection="#{examPaperController.selected}"
+                         paginator="true"
+                         rowKey="#{item.id}"
+                         rows ="10"
+                         rowsPerPageTemplate ="10,20,30,40,50,60"
+                         >
+                
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListExam_name}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.name}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListExam_createdOn}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.createdOn}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListExam_moduleName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.module.name}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Sections"/>                           
+                    </f:facet>
+                     
+                    <ui:repeat var="s" value="#{item.section}">
+                        <p:column>
+                            <p:outputLabel value="#{s.sectionName}"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{s.sectionTotalMarks}"/>
+                        </p:column>
+                        <p:column>
+                            <p:dataTable var="q" value="#{s.questions}">
+                                <p:column>
+                                    <p:outputLabel value="#{q.text}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </ui:repeat>
+                </p:column>
+
+            </p:dataTable>
+        </ui:define>
+
+    </ui:composition>
+
+</html>

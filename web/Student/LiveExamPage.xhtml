@@ -9,19 +9,30 @@
     <ui:composition template="/ExamPageTemplate.xhtml">
         <ui:define name="body">
             <h:form >
-                <p:panel id="messagePanel">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </p:panel>
-                <p:fieldset legend="#{examPaper.module.name}" style="margin-bottom:20px">
-                    <p:panelGrid layout="grid" columns="2">
-                        <p:outputLabel for="userid" value="#{bundle.UserID}:" />
-                        <p:inputText  id="userid" value="#{loginBean.username}" required="true" requiredMessage="User ID cannot be empty"/>
-                        <p:outputLabel for="password" value="#{bundle.password}" />
-                        <p:password  id="password" value="#{loginBean.password}" required="true" requiredMessage="Password Field cannot be empty"/>
-                        <p:commandButton value="Login" action="#{loginBean.login()}" ajax="false" />
-                    </p:panelGrid>                   
-                </p:fieldset>
+                <p:outputPanel style="alignment-adjust: middle"><h3 style="margin-left:35%">#{examPaper.module.name}</h3></p:outputPanel>
+                <p:fieldset legend="#{examPaper.module.name}">
+                    <p:panelGrid id ="questionPanel" columns="1">
+                        <p:outputLabel value="#{examSessionController.currentQuestion.text}"/>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:outputLabel for="options" value="options:" />
+                            <p:selectOneRadio id="options" rendered="#{examSessionController.currentQuestion.typeOfQuestion=='MULTI_CHOICE'}" value="#{examSessionController.singleAnswer}"  layout="grid" columns="3">
+                                <f:selectItems value="#{examSessionController.getQuesOptions()}" var="option" itemLabel="#{option}" itemValue="#{option}"/>
+                            </p:selectOneRadio>
+                            <p:editor id="editor" rendered="#{examSessionController.currentQuestion.typeOfQuestion=='ESSAY'}" widgetVar="editorWidget" value="#{examSessionController.singleAnswer}" width="600" />
+                            <p:selectManyCheckbox id="grid" rendered="#{examSessionController.currentQuestion.typeOfQuestion=='MULTI_ANSWER'}" value="#{examSessionController.multiAnswers}" layout="grid" columns="3">
+                                <f:selectItems value="#{examSessionController.quesOptions}" var="city" itemLabel="#{city}" itemValue="#{city}" />
+                            </p:selectManyCheckbox>
+                        </h:panelGrid>
 
+                    </p:panelGrid>
+                    <p:commandButton value="Save and Next" action="#{examSessionController.retrieveNextQuestion()}" 
+                                     rendered="#{examSessionController.currentQuestion!=null}"
+                                     update = "questionPanel" style="background-color: green; font-weight: bold;float: end"/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="YOU CANNOT COME BACK TO THE QUESTION" style="background-color: greenyellow" />
+                </p:fieldset>
             </h:form>
         </ui:define>
     </ui:composition>

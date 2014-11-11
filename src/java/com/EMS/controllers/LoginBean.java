@@ -7,7 +7,7 @@ package com.EMS.controllers;
 
 //import com.EMS.entities.LoginFacade;
 import com.EMS.ejb.UserFacade;
-import com.EMS.entities.User;
+import com.EMS.entities.AppUser;
 import com.EMS.enums.UserAgentType;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -34,26 +34,26 @@ public class LoginBean implements Serializable {
     //@EJB private LoginFacade loginFacade;
 
     @Inject
-    private User appUser;
+    private AppUser appUser;
 
     @EJB
     private UserFacade userFacade;
 
-    private User user;
+    private AppUser user;
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 
-    public User getAppUser() {
+    public AppUser getAppUser() {
         return appUser;
     }
 
-    public void setAppUser(User appUser) {
+    public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
     }
 
@@ -101,6 +101,7 @@ public class LoginBean implements Serializable {
         //if(loginFacade.loginCheck(username, password).equals(msg)){
         if (req.isUserInRole("student")) {
             appUser = userFacade.fetchUser(req.getRemoteUser());
+            user = userFacade.fetchUser(req.getRemoteUser());
             String returnLink = (userAgent == 1) ? "Student/StudentExamTimeTable?faces-redirect=true" : "Student/ExamView?faces-redirect=true";
             return returnLink;
         } else if (req.isUserInRole("lecturer")) {

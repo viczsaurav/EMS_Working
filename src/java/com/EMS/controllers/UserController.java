@@ -1,6 +1,6 @@
 package com.EMS.controllers;
 
-import com.EMS.entities.User;
+import com.EMS.entities.AppUser;
 import com.EMS.controllers.util.JsfUtil;
 import com.EMS.controllers.util.JsfUtil.PersistAction;
 import com.EMS.ejb.UserFacade;
@@ -26,17 +26,17 @@ public class UserController implements Serializable {
 
 
     @EJB private com.EMS.ejb.UserFacade ejbFacade;
-    private List<User> items = null;
-    private User selected;
+    private List<AppUser> items = null;
+    private AppUser selected;
 
     public UserController() {
     }
 
-    public User getSelected() {
+    public AppUser getSelected() {
         return selected;
     }
 
-    public void setSelected(User selected) {
+    public void setSelected(AppUser selected) {
         this.selected = selected;
     }
 
@@ -50,8 +50,8 @@ public class UserController implements Serializable {
         return ejbFacade;
     }
 
-    public User prepareCreate() {
-        selected = new User();
+    public AppUser prepareCreate() {
+        selected = new AppUser();
         initializeEmbeddableKey();
         return selected;
     }
@@ -75,7 +75,7 @@ public class UserController implements Serializable {
         }
     }
 
-    public List<User> getItems() {
+    public List<AppUser> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -110,19 +110,19 @@ public class UserController implements Serializable {
         }
     }
 
-    public User getUser(java.lang.Long id) {
+    public AppUser getUser(java.lang.Long id) {
         return getFacade().find(id);
     }
 
-    public List<User> getItemsAvailableSelectMany() {
+    public List<AppUser> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<User> getItemsAvailableSelectOne() {
+    public List<AppUser> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass=User.class)
+    @FacesConverter(forClass=AppUser.class)
     public static class UserControllerConverter implements Converter {
 
         @Override
@@ -152,11 +152,11 @@ public class UserController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof User) {
-                User o = (User) object;
+            if (object instanceof AppUser) {
+                AppUser o = (AppUser) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), User.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), AppUser.class.getName()});
                 return null;
             }
         }

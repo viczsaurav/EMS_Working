@@ -30,15 +30,15 @@ public class Student extends AbstractEntity implements Serializable {
 
     private String name;
     @OneToOne
-    private User user;
+    private AppUser user;
     @OneToMany
     private Collection<CourseModule> enrolledModules;
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 

@@ -6,7 +6,7 @@
 package com.EMS.entities;
 
 import com.EMS.entities.Student;
-import com.EMS.entities.User;
+import com.EMS.entities.AppUser;
 import com.EMS.ejb.UserFacade;
 import com.EMS.ejb.StudentFacade;
 import java.io.BufferedReader;
@@ -60,7 +60,7 @@ public class MaintainUser implements Serializable {
             while ((record = br.readLine()) != null) {
                 String recordValues[] = record.split(",");
                 Student student = new Student();
-                User user = new User();
+                AppUser user = new AppUser();
                 System.out.println(Long.parseLong(recordValues[0]));
                 user.setLoginId(recordValues[0]);
                 user.setPassword("password");
@@ -100,7 +100,7 @@ public class MaintainUser implements Serializable {
 //        String record = "";
 //        while((record=br.readLine())!=null){
 //            String recordValues[] = record.split(",");
-//            User user = new User();
+//            AppUser user = new AppUser();
 //            user.setId();
 //        }
 //        return userList;

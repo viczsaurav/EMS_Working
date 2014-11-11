@@ -22,18 +22,22 @@
 
         <p:layout fullPage="true">
             <p:layoutUnit  position="north" size="30" header="#{bundle.AppName}">
-                
+
             </p:layoutUnit>
-            
+
             <p:layoutUnit position="south" size="60">
                 <ui:insert name="footer"/>
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
-                <p:panelGrid columns="2" style="float: right">
-                    <h:outputText value="Current Time: " style="font-weight: bold"/>
-                    <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
-                </p:panelGrid>
+                <h:form>
+                    <p:panelGrid columns="4" style="float: right">
+                        <h:outputText value="Time: " style="font-weight: bold"/>
+                        <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+                        <h:outputText value="#{loginBean.appUser.name}" style="font-weight: bold" />
+                        <h:commandLink action="#{loginBean.logout()}" value="Logout"/>
+                    </p:panelGrid>
+                </h:form>
                 <ui:insert name="body"/>
             </p:layoutUnit>
 

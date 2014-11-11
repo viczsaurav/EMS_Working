@@ -6,7 +6,7 @@
 package com.EMS.ejb;
 
 import com.EMS.entities.Student;
-import com.EMS.entities.User;
+import com.EMS.entities.AppUser;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,7 +32,7 @@ public class StudentFacade extends AbstractFacade<Student> {
         super(Student.class);
     }
 
-    public Student fetchStudent(User appUser) {
+    public Student fetchStudent(AppUser appUser) {
         TypedQuery<Student> query = em.createNamedQuery("Student.findByUser", Student.class);
         query.setParameter("studentId", appUser);
         List<Student> students = query.getResultList();

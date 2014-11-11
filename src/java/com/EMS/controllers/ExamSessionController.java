@@ -1,16 +1,24 @@
 package com.EMS.controllers;
 
+import com.EMS.ejb.ExamAnswersFacade;
 import com.EMS.entities.ExamPaper;
 import com.EMS.entities.ExamSession;
 import com.EMS.ejb.ExamSessionFacade;
+import com.EMS.ejb.QuestionFacade;
+import com.EMS.ejb.QuestionMultiAnswerFacade;
+import com.EMS.ejb.QuestionMultiChoiceFacade;
+import com.EMS.entities.ExamAnswers;
+import com.EMS.entities.Question;
 import com.EMS.entities.util.JsfUtil;
 import com.EMS.entities.util.PaginationHelper;
-import java.io.IOException;
+import com.EMS.enums.QuestionTypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -24,35 +32,145 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
-
 @Named("examSessionController")
 @SessionScoped
 public class ExamSessionController implements Serializable {
 
-
     private ExamSession current;
     private DataModel items = null;
-    @EJB private com.EMS.ejb.ExamSessionFacade ejbFacade;
+    @EJB
+    private com.EMS.ejb.ExamSessionFacade ejbFacade;
+    @EJB
+    QuestionFacade questionEjb;
+    @EJB
+    QuestionMultiAnswerFacade multAnsEjb;
+    @EJB
+    QuestionMultiChoiceFacade multChoiceEjb;
+    @EJB 
+    ExamAnswersFacade examAnswersEjb;
+
     private PaginationHelper pagination;
     private int selectedItemIndex;
-    @Inject private ExamPaper ePaper;
-    
+    @Inject
+    private ExamPaper ePaper;
+    @Inject
+    private LoginBean logged;
+
+    private List<Question> listOfQuestions;
+    private Iterator<Question> itrQuestion;
+    private Question currentQuestion;
+    private ExamAnswers examAnswers;
+    private String singleAnswer;
+    private List<String> multiAnswers;
+
+    public List<String> getMultiAnswers() {
+        return multiAnswers;
+    }
+
+    public void setMultiAnswers(List<String> multiAnswers) {
+        this.multiAnswers = multiAnswers;
+    }
     private ExternalContext externalContext;
 
     public ExamSessionController() {
         externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        
+    }
+
+
+    public String getSingleAnswer() {
+        return singleAnswer;
+    }
+
+    public void setSingleAnswer(String singleAnswer) {
+        this.singleAnswer = singleAnswer;
+    }
+
+    public ExamAnswers getExamAnswers() {
+        return examAnswers;
+    }
+
+    public void setExamAnswers(ExamAnswers examAnswers) {
+        this.examAnswers = examAnswers;
+    }
+
+    public Question getCurrentQuestion() {
+        return currentQuestion;
+    }
+
+    public void setCurrentQuestion(Question currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
+
+
+    public String startExam() {
+        System.out.println(">>>Epaper Module>>>> " + ePaper.getModule().getName());
+        System.out.println(">> Student Logged in " + logged.getAppUser().getStudent().getName());
+        externalContext.addResponseHeader("Test", "test");
+        listOfQuestions = questionEjb.findAll();
+        itrQuestion = listOfQuestions.iterator();
+        currentQuestion = itrQuestion.next();
+        singleAnswer = "";
+        
+        examAnswers = new ExamAnswers();
+        examAnswers.setExamSession(current);
+        
+        
+        return "LiveExamPage";
+    }
+
+    public List<Question> getListOfQuestions() {
+        return listOfQuestions;
+    }
+
+    public void setListOfQuestions(List<Question> listOfQuestions) {
+        this.listOfQuestions = listOfQuestions;
+    }
+
+    public void retrieveNextQuestion() {
+        if (itrQuestion.hasNext()) {
+            examAnswers = new ExamAnswers();
+            examAnswers.setQuestion(currentQuestion);
+            examAnswers.setExamSession(current);
+            examAnswers.setAnswers(answerType(currentQuestion));
+            System.out.println("question :"+examAnswers.getQuestion().getText());
+            System.out.println("Session :"+examAnswers.getExamSession().getStudent().getName());
+            System.out.println("Answer :"+examAnswers.getAnswers().toString());
+//            examAnswersEjb.create(examAnswers);    
+            currentQuestion = itrQuestion.next();
+        } else {
+            currentQuestion = null;
+        }
     }
     
-    public String startExam()
-    {
-        System.out.println(">>>insideexam session>>>>"+ePaper.getModule().toString());
-         
-//        try {
-//            externalContext.redirect("LiveExamPage.xhtml");
-//        } catch (IOException ex) {
-//            Logger.getLogger(ExamSessionController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        return "LiveExamPage";
+    //Helper to choose the type of answer based on the question;
+    private List<String> answerType(Question currentQuestion) {
+        List<String> answers = new ArrayList<String>();
+        
+        if(currentQuestion.getTypeOfQuestion() == QuestionTypes.ESSAY || currentQuestion.getTypeOfQuestion() == QuestionTypes.MULTI_CHOICE)
+        {
+             System.out.println("Single Answer :"+singleAnswer);
+            answers.add(singleAnswer);
+        }
+        else
+        {
+              System.out.println("Multi Answer :"+multiAnswers);
+            answers = multiAnswers;
+        }
+        return answers;
+    }
+
+    public List<String> getQuesOptions() {
+        switch (currentQuestion.getTypeOfQuestion()) {
+            case ESSAY:
+                return null;
+            case MULTI_CHOICE:
+                return multChoiceEjb.find(currentQuestion.getId()).getChoices();
+            case MULTI_ANSWER:
+                return multAnsEjb.find(currentQuestion.getId()).getChoices();
+            default:
+                return null;
+        }
     }
 
     public ExamSession getSelected() {
@@ -66,6 +184,7 @@ public class ExamSessionController implements Serializable {
     private ExamSessionFacade getFacade() {
         return ejbFacade;
     }
+
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
@@ -77,7 +196,7 @@ public class ExamSessionController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem()+getPageSize()}));
+                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -90,7 +209,7 @@ public class ExamSessionController implements Serializable {
     }
 
     public String prepareView() {
-        current = (ExamSession)getItems().getRowData();
+        current = (ExamSession) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
@@ -113,7 +232,7 @@ public class ExamSessionController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (ExamSession)getItems().getRowData();
+        current = (ExamSession) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -130,7 +249,7 @@ public class ExamSessionController implements Serializable {
     }
 
     public String destroy() {
-        current = (ExamSession)getItems().getRowData();
+        current = (ExamSession) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -164,14 +283,14 @@ public class ExamSessionController implements Serializable {
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
-            selectedItemIndex = count-1;
+            selectedItemIndex = count - 1;
             // go to previous page if last page disappeared:
             if (pagination.getPageFirstItem() >= count) {
                 pagination.previousPage();
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex+1}).get(0);
+            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -214,7 +333,8 @@ public class ExamSessionController implements Serializable {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass=ExamSession.class)
+
+    @FacesConverter(forClass = ExamSession.class)
     public static class ExamSessionControllerConverter implements Converter {
 
         @Override
@@ -222,7 +342,7 @@ public class ExamSessionController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ExamSessionController controller = (ExamSessionController)facesContext.getApplication().getELResolver().
+            ExamSessionController controller = (ExamSessionController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "examSessionController");
             return controller.getExamSession(getKey(value));
         }
@@ -248,7 +368,7 @@ public class ExamSessionController implements Serializable {
                 ExamSession o = (ExamSession) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: "+ExamSession.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + ExamSession.class.getName());
             }
         }
 

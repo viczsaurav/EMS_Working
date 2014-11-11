@@ -40,7 +40,7 @@ public class ExamPaperController implements Serializable {
     @EJB
     private ExamPaperFacade ejbFacade;
     private PaginationHelper pagination;
-
+    private List<ExamPaper> examPapers;
     private int selectedItemIndex;
     private CourseModule selectedModule;
     private List<Section> sections;
@@ -63,6 +63,14 @@ public class ExamPaperController implements Serializable {
     public SectionTypes getSectionAutomatic(){
         return SectionTypes.AUTOMATIC;
     }
+
+    public List<ExamPaper> getExamPapers() {
+        return examPapers;
+    }
+
+    public void setExamPapers(List<ExamPaper> examPapers) {
+        this.examPapers = examPapers;
+    }
     
     public SectionTypes getSectionManual(){
         return SectionTypes.MANUAL;
@@ -74,6 +82,7 @@ public class ExamPaperController implements Serializable {
         sections = new ArrayList<Section>();
         courseModules = new ArrayList<CourseModule>();
         questions = new ArrayList<Question>();
+        examPapers = getFacade().findAll();
 //        section = new Section();
         courseModules = courseModuleFacade.findAll();
     }
@@ -326,6 +335,7 @@ public class ExamPaperController implements Serializable {
     public DataModel getItems() {
         if (items == null) {
             items = getPagination().createPageDataModel();
+//            exams = getPagination().createPageDataModel();
         }
         return items;
     }

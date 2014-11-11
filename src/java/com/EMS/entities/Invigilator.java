@@ -6,44 +6,37 @@
 package com.EMS.entities;
 
 import java.io.Serializable;
-import javax.faces.view.ViewScoped;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
- * @author mani
+ * @author Saurav
  */
 @Entity
-@ViewScoped
-public class ExamSession extends AbstractEntity implements Serializable {
-
+public class Invigilator extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    private String name;
+    @OneToOne
+    private AppUser user;
 
-    @ManyToOne
-    private ExamPaper examPaper;
-
-    @ManyToOne
-    private Student student;
-
-    private Boolean isActiveSession = false;
-
-    public Student getStudent() {
-        return student;
+    public String getName() {
+        return name;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public ExamPaper getExamPaper() {
-        return examPaper;
+    public AppUser getUser() {
+        return user;
     }
 
-    public void setExamPaper(ExamPaper examPaper) {
-        this.examPaper = examPaper;
+    public void setUser(AppUser user) {
+        this.user = user;
     }
-
+   
     @Override
     public int hashCode() {
         int hash = 0;
@@ -54,10 +47,10 @@ public class ExamSession extends AbstractEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ExamSession)) {
+        if (!(object instanceof Invigilator)) {
             return false;
         }
-        ExamSession other = (ExamSession) object;
+        Invigilator other = (Invigilator) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -66,7 +59,7 @@ public class ExamSession extends AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.EMS.entities.ExamSession[ id=" + id + " ]";
+        return "com.EMS.entities.lecturer[ id=" + id + " ]";
     }
-
+    
 }

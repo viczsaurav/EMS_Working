@@ -30,11 +30,13 @@
                 <h:form id="menuForm">
                     <p:slideMenu style="width:160px">
                         <p:menuitem value="#{bundle.Home}" outcome="/Student/ExamView.xhtml" icon="ui-icon-home"
-                                    rendered="#{loginBean.appUser.role=='student'}"/>
+                                    rendered="#{loginBean.user.role=='student'}"/>
                         <p:menuitem value="Manage Questions" outcome="/question/List.xhtml" />
                         <p:submenu label="#{bundle.Maintenance}">
                             <p:menuitem value="Course Modules" outcome="/courseModule/List.xhtml" />
                             <p:menuitem value="Subject Tags" outcome="/subject/List.xhtml" />
+                            <p:menuitem value="Exam Paper" action="#{examPaperController.getExamPapers()}" outcome="/examPaper/lstExams.xhtml"/>
+                            <p:menuitem value="Create Exam" outcome="/examPaper/createExam.xhtml"/>
                         </p:submenu>
                         <p:menuitem value="" />
                     </p:slideMenu>

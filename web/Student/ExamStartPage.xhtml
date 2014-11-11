@@ -9,9 +9,7 @@
     <ui:composition template="/template.xhtml">
         <ui:define name="body">
             <h:form >
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
+                
                 <p:outputPanel style="alignment-adjust: middle"><h3 style="margin-left:35%">#{bundle.ExamInstructions}</h3></p:outputPanel>
                 <p:fieldset legend="#{examPaper.module.name}" style="margin-bottom:20px">
                     <p:panelGrid columns="3" style="border-width: 0px">  

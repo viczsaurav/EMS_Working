@@ -22,11 +22,11 @@ import javax.persistence.OneToOne;
 @SessionScoped
 
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByUserLoginID", query = "SELECT u FROM User u WHERE u.loginId = :username")})
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM AppUser u"),
+    @NamedQuery(name = "User.findById", query = "SELECT u FROM AppUser u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByUserLoginID", query = "SELECT u FROM AppUser u WHERE u.loginId = :username")})
 
-public class User extends AbstractEntity implements Serializable {
+public class AppUser extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -103,10 +103,10 @@ public class User extends AbstractEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof AppUser)) {
             return false;
         }
-        User other = (User) object;
+        AppUser other = (AppUser) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,8 +118,8 @@ public class User extends AbstractEntity implements Serializable {
         return "com.EMS.entities.User[ id=" + id + ",password=" + password + " ]";
     }
 
-    public User cloneUser() {
-        User newUser = new User();
+    public AppUser cloneUser() {
+        AppUser newUser = new AppUser();
         newUser.setId(this.getId());
         newUser.setIsFirstLogin(this.getIsFirstLogin());
         newUser.setLoginId(this.getLoginId());

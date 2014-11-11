@@ -4,7 +4,6 @@ import com.EMS.entities.CourseModule;
 import com.EMS.entities.ExamPaper;
 import com.EMS.entities.Student;
 import com.EMS.ejb.StudentFacade;
-import com.EMS.entities.User;
 import com.EMS.entities.util.JsfUtil;
 import com.EMS.entities.util.PaginationHelper;
 
@@ -35,6 +34,7 @@ public class StudentController implements Serializable {
     private int selectedItemIndex;
     @Inject
     private ExamPaper ePaper;
+    
     @Inject
     private LoginBean loggedUser;
     
@@ -42,8 +42,8 @@ public class StudentController implements Serializable {
     
     @PostConstruct
     public void init(){
-        System.out.println(">>Inside init StudentController"+loggedUser.getAppUser().getStudent().getName() );
-        current = loggedUser.getAppUser().getStudent();
+        System.out.println(">>Inside init StudentController "+loggedUser.getUser().getName());
+        current = loggedUser.getUser().getStudent();
     }
 
 
@@ -98,7 +98,7 @@ public class StudentController implements Serializable {
     }
 
     public String prepareListView() {
-        current = studentFacade.fetchStudent(loggedUser.getAppUser());
+        current = studentFacade.fetchStudent(loggedUser.getUser());
 //        current = (Student) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         System.out.println(">>>> " + current.getName() + " ##" + selectedItemIndex);

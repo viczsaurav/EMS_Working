@@ -6,7 +6,7 @@
 package com.EMS.ejb;
 
 import com.EMS.entities.AbstractFacade;
-import com.EMS.entities.User;
+import com.EMS.entities.AppUser;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,7 +20,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 
-public class UserFacade extends AbstractFacade<User> {
+public class UserFacade extends AbstractFacade<AppUser> {
 
     @PersistenceContext(unitName = "EMSPU")
     private EntityManager em;
@@ -31,13 +31,13 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     public UserFacade() {
-        super(User.class);
+        super(AppUser.class);
     }
 
-    public User fetchUser(String username) {
-        TypedQuery<User> query = em.createNamedQuery("User.findByUserLoginID", User.class);
+    public AppUser fetchUser(String username) {
+        TypedQuery<AppUser> query = em.createNamedQuery("User.findByUserLoginID", AppUser.class);
         query.setParameter("username", username);
-        List<User> users = query.getResultList();
+        List<AppUser> users = query.getResultList();
         if (users.size() > 0) {
             return users.get(0);
         } else {
