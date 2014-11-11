@@ -1,15 +1,21 @@
 package com.EMS.controllers;
 
-import com.EMS.entities.ExamPaper;
+import com.EMS.ejb.CourseModuleFacade;
 import com.EMS.ejb.ExamPaperFacade;
+import com.EMS.ejb.QuestionFacade;
+import com.EMS.entities.CourseModule;
+import com.EMS.entities.ExamPaper;
+import com.EMS.entities.Question;
+import com.EMS.entities.Section;
 import com.EMS.entities.util.JsfUtil;
 import com.EMS.entities.util.PaginationHelper;
-
+import com.EMS.enums.SectionTypes;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,17 +23,158 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 
 @Named("examPaperController")
-@SessionScoped
+@ViewScoped
 public class ExamPaperController implements Serializable {
 
     private ExamPaper current;
     private DataModel items = null;
     @EJB
-    private com.EMS.ejb.ExamPaperFacade ejbFacade;
+    private QuestionFacade questionFacade;
+    @EJB
+    private ExamPaperFacade ejbFacade;
     private PaginationHelper pagination;
+
     private int selectedItemIndex;
+    private CourseModule selectedModule;
+    private List<Section> sections;
+    private List<Question> questions;
+    @EJB
+    private CourseModuleFacade courseModuleFacade;
+    private List<CourseModule> courseModules;
+//    private Section selectedSection;
+    @Inject private Section section;
+    
+//    private String sectionName;
+    private SectionTypes sectionType;
+    private int sectionMarks;
+    private List<Question> selectedQuestions;
+
+    public SectionTypes[] getSectionTypes() {
+        return SectionTypes.values();
+    }
+    
+    public SectionTypes getSectionAutomatic(){
+        return SectionTypes.AUTOMATIC;
+    }
+    
+    public SectionTypes getSectionManual(){
+        return SectionTypes.MANUAL;
+    }
+
+    @PostConstruct
+    public void init() {
+        current = new ExamPaper();
+        sections = new ArrayList<Section>();
+        courseModules = new ArrayList<CourseModule>();
+        questions = new ArrayList<Question>();
+//        section = new Section();
+        courseModules = courseModuleFacade.findAll();
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+    public List<CourseModule> getCourseModules() {
+        return courseModules;
+    }
+
+    public SectionTypes getSectionType() {
+        return sectionType;
+    }
+
+    public void setSectionType(SectionTypes sectionType) {
+        this.sectionType = sectionType;
+    }
+
+    public int getSectionMarks() {
+        return sectionMarks;
+    }
+
+    public void setSectionMarks(int sectionMarks) {
+        this.sectionMarks = sectionMarks;
+    }
+
+    public List<Question> getSelectedQuestions() {
+        return selectedQuestions;
+    }
+
+    public void setSelectedQuestions(List<Question> selectedQuestions) {
+        this.selectedQuestions = selectedQuestions;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
+    public void setCourseModules(List<CourseModule> courseModules) {
+        this.courseModules = courseModules;
+    }
+
+    public void addSectionToExam() {
+//        section.setQuestions(selectedQuestions);
+//        section.setSectionType(sectionType);
+        if(section.getSectionType().equals(SectionTypes.AUTOMATIC)
+                &&(section.getSectionTotalMarks()>0)){
+            System.out.println("Automatic Selected");
+            section.setSectionTotalMarks(sectionMarks);
+        }
+        for(Question q:section.getQuestions()){
+            section.setSectionTotalMarks(
+                    section.getSectionTotalMarks()+q.getMarks());
+            questions.remove(q);
+        }
+        Section addSection = new Section();
+        addSection.setQuestions(section.getQuestions());
+        addSection.setSectionName(section.getSectionName());
+        addSection.setSectionTotalMarks(section.getSectionTotalMarks());
+        addSection.setSectionType(section.getSectionType());
+        sections.add(addSection);
+        section.setQuestions(null);
+        selectedQuestions = null;
+        sectionType = null;
+        sectionMarks = 0;
+        section.setSectionName("Section "+(sections.size()+1));
+    }
+
+    public void onSelectSectionType() {
+        System.out.println(section.getSectionType());
+//        System.out.println(e.getObject());
+        /*if(e.getComponent().getAttributes().get("sectiontypeValue")=="AUTOMATIC"){
+         System.out.println("Automatic Selected");
+         }*/
+    }
+
+    public CourseModule getSelectedModule() {
+        return selectedModule;
+    }
+
+    public void setSelectedModule(CourseModule selectedModule) {
+        this.selectedModule = selectedModule;
+    }
 
     public ExamPaperController() {
     }
@@ -40,8 +187,31 @@ public class ExamPaperController implements Serializable {
         return current;
     }
 
+    public ExamPaper getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(ExamPaper current) {
+        this.current = current;
+    }
+
     private ExamPaperFacade getFacade() {
         return ejbFacade;
+    }
+
+    public String save() {
+        current.setModule(selectedModule);
+        current.setSection(sections);
+        return create();
+    }
+
+    public void onSelectedModuleChange() {
+        System.out.println(">>ExamPaperController examname:" + current.getName());
+        sections.clear();
+        section.setSectionName("Section " + (sections.size() + 1));
+        section.setSectionTotalMarks(0);
+        if (selectedModule != null) 
+            questions = selectedModule.getQuestions();
     }
 
     public PaginationHelper getPagination() {

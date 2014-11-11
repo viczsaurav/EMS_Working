@@ -7,32 +7,51 @@ package com.EMS.entities;
 
 import com.EMS.enums.SectionTypes;
 import java.io.Serializable;
+import java.util.List;
+import javax.faces.view.ViewScoped;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 /**
  *
  * @author mani
  */
 @Entity
+@ViewScoped
 public class Section extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String sectionName;
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    @JoinTable(name = "Section_Question", joinColumns = 
+    @JoinColumn(name = "QUESTION_ID"), inverseJoinColumns = 
+    @JoinColumn(name = "SUBJECT_ID"))
+    private List<Question> questions;
 
-    private Long sectionTotalMarks;
+    private int sectionTotalMarks;
 
     @ManyToOne
     private ExamPaper examPaper;
     
     @Enumerated(EnumType.STRING)
     private SectionTypes sectionType;
+    
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
 
     public String getSectionName() {
         return sectionName;
@@ -42,11 +61,11 @@ public class Section extends AbstractEntity implements Serializable {
         this.sectionName = sectionName;
     }
 
-    public Long getSectionTotalMarks() {
+    public int getSectionTotalMarks() {
         return sectionTotalMarks;
     }
 
-    public void setSectionTotalMarks(Long sectionTotalMarks) {
+    public void setSectionTotalMarks(int sectionTotalMarks) {
         this.sectionTotalMarks = sectionTotalMarks;
     }
 

@@ -89,8 +89,7 @@ public class LoginBean implements Serializable {
                 req.login(username, password);
                 headerName = req.getHeaders("user-agent").nextElement().toLowerCase();
                 if (headerName.contains(UserAgentType.android.toString())
-                        || headerName.contains(UserAgentType.iphone.toString())
-                        || headerName.contains(UserAgentType.windows.toString())) {
+                        || headerName.contains(UserAgentType.iphone.toString())) {
                     userAgent = 1; // For Mobile
                 }
             }

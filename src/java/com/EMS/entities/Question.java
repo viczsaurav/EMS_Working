@@ -41,6 +41,9 @@ public class Question extends AbstractEntity implements Serializable {
     private String text;
     
     @ManyToOne
+    private Section section;
+    
+    @ManyToOne
     private CourseModule coursemodule;
     
     @Basic(optional = false)

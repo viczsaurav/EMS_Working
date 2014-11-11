@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="sectiontypeLabel" />
+        <composite:attribute name="sectiontypeValue" />
+        <composite:attribute name="totalmarksLabel" />
+        <composite:attribute name="totalmarksValue" />
+        <composite:attribute name="questionLabel" />
+        <composite:attribute name="questionsValue" />
+        <composite:attribute name="tableselection" />
+        <composite:attribute name="sectiontypeValues" />
+        <composite:attribute name="sectiontypelistener" />
+        <composite:attribute name="manualsectiontype" />
+        <composite:attribute name="automaticsectiontype" />
+    </composite:interface>
+
+    <composite:implementation>
+        <h:form>
+            <p:outputLabel for ="sectiontype" value="#{cc.attrs.sectiontypeLabel} :" />
+            <p:selectOneRadio id="sectiontype" value="#{cc.attrs.sectiontypeValue}" > 
+                <f:ajax render="tablePanel" />
+                <f:selectItems itemLabel="#{sectiontype}" value="#{cc.attrs.sectiontypeValues}" 
+                               itemValue="#{sectiontype}" />
+            </p:selectOneRadio>
+            <br/>
+            <p:panelGrid columns="2" id="tablePanel" >
+                <p:outputLabel value="#{cc.attrs.totalmarksLabel} :" 
+                               rendered="#{cc.attrs.sectiontypeValue eq cc.attrs.automaticsectiontype}" />
+            <p:spinner id="totalmarks" value="#{cc.attrs.totalmarksValue}" 
+                        min="1" max="100" rendered="#{cc.attrs.sectiontypeValue eq cc.attrs.automaticsectiontype}"/> 
+            <p:outputLabel value="Questions:" rendered="#{cc.attrs.sectiontypeValue eq cc.attrs.manualsectiontype}" />
+            <p:dataTable id="questionsTable" var="question" value="#{cc.attrs.questionsValue}" 
+                         selection="#{cc.attrs.tableselection}"
+                         rendered="#{cc.attrs.sectiontypeValue eq cc.attrs.manualsectiontype}" 
+                         rowKey="#{question.id}">
+                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                <p:column headerText="Question" >
+                    <h:outputText value="#{question.text}" />
+                </p:column>
+            </p:dataTable>
+            </p:panelGrid>
+        </h:form>
+    </composite:implementation>
+</html>
+

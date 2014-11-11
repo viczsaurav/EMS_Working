@@ -7,10 +7,13 @@ package com.EMS.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,14 +33,24 @@ public class ExamPaper extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Date createdOn;
+    private String name;
 
     @OneToOne
     private CourseModule module;
     
       
-    @OneToMany (mappedBy = "examPaper")
-    private Collection<Section> section;
+    @OneToMany (mappedBy = "examPaper", cascade = CascadeType.ALL)
+    private List<Section> section;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
     public Date getCreatedOn() {
         return createdOn;
     }
@@ -54,11 +67,11 @@ public class ExamPaper extends AbstractEntity implements Serializable {
         this.module = module;
     }
 
-    public Collection<Section> getSection() {
+    public List<Section> getSection() {
         return section;
     }
 
-    public void setSection(Collection<Section> section) {
+    public void setSection(List<Section> section) {
         this.section = section;
     }
   

@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Collection;
+import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -46,7 +48,7 @@ public class CourseModule extends AbstractEntity implements Serializable {
     private String location;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "coursemodule")
-    private Collection<Question> questions;
+    private List<Question> questions;
     
     @Transient private long timeToStart=1;
 
@@ -99,11 +101,12 @@ public class CourseModule extends AbstractEntity implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Question> getQuestions() {
+    @OneToMany(cascade=ALL, mappedBy="coursemodule")
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Collection<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:tp="http://java.sun.com/jsf/composite/sectcomp">
+    <h:head>
+        <title>Create Exam</title>
+    </h:head>
+    <ui:composition template="/ExamPageTemplate.xhtml">
+        <ui:define name="body">
+            <h:form id="exampaperform">
+                <p:panelGrid columns="2" id="examdetailsgrid">
+                    Exam name: <p:inputText id="examname" value="#{examPaperController.current.name}" />
+                    Module: 
+                    <p:selectOneMenu id="module" value="#{examPaperController.selectedModule}" >
+                        <f:ajax listener="#{examPaperController.onSelectedModuleChange()}" 
+                                render="@form" execute="@form"/>
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{examPaperController.courseModules}" 
+                                       itemLabel="#{courseModule.name}" itemValue="#{courseModule}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton id="addsectionbutton" value="Add Section" update="display" 
+                                 actionListener="#{examPaperController.addSectionToExam()}" 
+                                 />
+                <p:commandButton id="savebutton" value="Save" action="#{examPaperController.save()}" />
+                <p:panelGrid columns="2" id="display">
+                    <p:tab title="#{examPaperController.section.sectionName}" >
+                        <tp:sectioncomponent id="sectioncomp" sectiontypeLabel="Section Type"
+                                             sectiontypeValue="#{examPaperController.section.sectionType}"
+                                             sectiontypeValues="#{examPaperController.getSectionTypes()}"
+                                             automaticsectiontype="#{examPaperController.getSectionAutomatic()}"
+                                             manualsectiontype="#{examPaperController.getSectionManual()}"
+                                             totalmarksLabel="Total Marks"
+                                             totalmarksValue="#{examPaperController.section.sectionTotalMarks}"
+                                             questionLabel="Question"
+                                             questionsValue="#{examPaperController.questions}"
+                                             tableselection="#{examPaperController.section.questions}"/>
+                    </p:tab>
+                </p:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
