@@ -7,6 +7,8 @@ package com.EMS.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
@@ -14,9 +16,15 @@ import javax.persistence.OneToOne;
  * @author Saurav
  */
 @Entity
-public class lecturer extends AbstractEntity implements Serializable {
+
+@NamedQueries({
+    @NamedQuery(name = "Lecturer.findAll", query = "SELECT l FROM Lecturer l"),
+    @NamedQuery(name = "Lecturer.findById", query = "SELECT l FROM Lecturer l WHERE l.id = :id"),
+    @NamedQuery(name = "Lecturer.findByUser", query = "SELECT l FROM Lecturer l WHERE l.user = :appUser")})
+
+public class Lecturer extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private String name;
     @OneToOne
     private AppUser user;
@@ -47,10 +55,10 @@ public class lecturer extends AbstractEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof lecturer)) {
+        if (!(object instanceof Lecturer)) {
             return false;
         }
-        lecturer other = (lecturer) object;
+        Lecturer other = (Lecturer) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

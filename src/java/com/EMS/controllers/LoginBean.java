@@ -92,6 +92,8 @@ public class LoginBean implements Serializable {
                         || headerName.contains(UserAgentType.iphone.toString())) {
                     userAgent = 1; // For Mobile
                 }
+                appUser = userFacade.fetchUser(req.getRemoteUser());
+                user = userFacade.fetchUser(req.getRemoteUser());
             }
         } catch (ServletException e) {
             fc.addMessage(null, new FacesMessage(e.getMessage()));
@@ -100,15 +102,12 @@ public class LoginBean implements Serializable {
 
         //if(loginFacade.loginCheck(username, password).equals(msg)){
         if (req.isUserInRole("student")) {
-            appUser = userFacade.fetchUser(req.getRemoteUser());
-            user = userFacade.fetchUser(req.getRemoteUser());
             String returnLink = (userAgent == 1) ? "Student/StudentExamTimeTable?faces-redirect=true" : "Student/ExamView?faces-redirect=true";
             return returnLink;
         } else if (req.isUserInRole("lecturer")) {
-            UserAgentType.values();
-            return "/faces/Lecturer/*";
+            return "/Lecturer/question/List.xhtml?faces-redirect=true";
         } else if (req.isUserInRole("admin")) {
-            return "/faces/Admin/*";
+            return "/Admin/courseModule/List.xhtml?faces-redirect=true";
         } else {
             return "template?faces-redirect=true";
         }

@@ -34,3 +34,7 @@ INSERT INTO `STUDENT` VALUES (1,'Abhinav',1),(2,'Nisith',2),(4,'Sharique',4);
 INSERT INTO `STUDENT_COURSEMODULE` VALUES (1,1),(2,1),(4,1),(1,2),(2,2),(4,2),(1,3),(2,3),(4,4);
 
 INSERT INTO `LECTURER` VALUES (1,'Dilbert',3);
+
+INSERT INTO APPUSER VALUES ('N','admin','Administrator','admin','admin');
+
+INSERT INTO APPUSER VALUES ('5','N','admin','Administrator','admin','admin');

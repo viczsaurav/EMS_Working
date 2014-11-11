@@ -4,6 +4,7 @@ import com.EMS.entities.CourseModule;
 import com.EMS.entities.ExamPaper;
 import com.EMS.entities.Student;
 import com.EMS.ejb.StudentFacade;
+import com.EMS.entities.AppUser;
 import com.EMS.entities.util.JsfUtil;
 import com.EMS.entities.util.PaginationHelper;
 

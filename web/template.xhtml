@@ -23,7 +23,7 @@
 
         <p:layout fullPage="true">
             <p:layoutUnit  position="north" size="30" header="#{bundle.AppName}">
-            
+
             </p:layoutUnit>
             <p:layoutUnit position="west" size="170">
                 <p:graphicImage library="images" name="EMS_transparent_small.jpg" />
@@ -31,12 +31,18 @@
                     <p:slideMenu style="width:160px">
                         <p:menuitem value="#{bundle.Home}" outcome="/Student/ExamView.xhtml" icon="ui-icon-home"
                                     rendered="#{loginBean.user.role=='student'}"/>
-                        <p:menuitem value="Manage Questions" outcome="/question/List.xhtml" />
-                        <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="Course Modules" outcome="/courseModule/List.xhtml" />
-                            <p:menuitem value="Subject Tags" outcome="/subject/List.xhtml" />
-                            <p:menuitem value="Exam Paper" action="#{examPaperController.getExamPapers()}" outcome="/examPaper/lstExams.xhtml"/>
-                            <p:menuitem value="Create Exam" outcome="/examPaper/createExam.xhtml"/>
+
+                        <p:menuitem value="Manage Questions" outcome="/Lecturer/question/List.xhtml" icon="ui-icon-home"
+                                    rendered="#{loginBean.user.role=='lecturer'}"/>
+                        <p:submenu label="Manage Examination" rendered="#{loginBean.user.role=='lecturer'}">
+                            <p:menuitem value="Exam Paper" action="#{examPaperController.getExamPapers()}" 
+                                        outcome="/Lecturer/examPaper/ListExams.xhtml"/>
+                            <p:menuitem value="Create Exam" outcome="/Lecturer/examPaper/createExam.xhtml"/>
+                        </p:submenu>
+                        <p:menuitem value="" />
+                        <p:submenu label="#{bundle.Maintenance}" rendered="#{loginBean.user.role=='admin'}">
+                            <p:menuitem value="Course Modules" outcome="/Admin/courseModule/List.xhtml" />
+                            <p:menuitem value="Subject Tags" outcome="/Admin/subject/List.xhtml" />                            
                         </p:submenu>
                         <p:menuitem value="" />
                     </p:slideMenu>
@@ -48,12 +54,12 @@
 
             <p:layoutUnit position="center">
                 <h:form>
-                <p:panelGrid columns="4" style="float: right">
-                    <h:outputText value="Time: " style="font-weight: bold"/>
-                    <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
-                    <h:outputText value="#{loginBean.appUser.name}" style="font-weight: bold" />
-                    <h:commandLink action="#{loginBean.logout()}" value="Logout"/>
-                </p:panelGrid>
+                    <p:panelGrid columns="4" style="float: right">
+                        <h:outputText value="Time: " style="font-weight: bold"/>
+                        <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+                        <h:outputText value="Welcome #{loginBean.appUser.name}..!!" style="font-weight: bold" />
+                        <h:commandLink action="#{loginBean.logout()}" value="Logout"/>
+                    </p:panelGrid>
                 </h:form>
                 <ui:insert name="body"/>
             </p:layoutUnit>

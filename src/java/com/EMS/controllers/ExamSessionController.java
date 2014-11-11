@@ -104,9 +104,6 @@ public class ExamSessionController implements Serializable {
 
 
     public String startExam() {
-        System.out.println(">>>Epaper Module>>>> " + ePaper.getModule().getName());
-        System.out.println(">> Student Logged in " + logged.getAppUser().getStudent().getName());
-        externalContext.addResponseHeader("Test", "test");
         listOfQuestions = questionEjb.findAll();
         itrQuestion = listOfQuestions.iterator();
         currentQuestion = itrQuestion.next();
