@@ -18,30 +18,27 @@
                 <h:outputText escape="false" value="#{bundle.ListExamSessionEmpty}" 
                               rendered="#{examSessionController.items.rowCount == 0}"/>
                 
-                <p:dataScroller value="#{studentController.getStudent(id)}" var="item" chunkSize="10" 
-                                rendered="#{examSessionController.items.rowCount > 0}">
-                    <f:facet name="header" >#{bundle.EnrolledExams}</f:facet>
-
-                    <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail,link">
-                        <p:graphicImage library="images" name="exam-small.png" /> 
-                        <p:outputPanel>
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="#{bundle.ModuleName}:" />
-                                <h:outputText value="#{item.examPaper.module.name}" style="font-weight: bold"/>
-
-                                <h:outputText value="#{bundle.StartTime}:" />
-                                <h:outputText value="#{item.startTime}" style="font-weight: bold"/>
-
-                                <h:outputText value="#{bundle.ExamLocation}:" />
-                                <h:outputText value="#{item.location}" style="font-weight: bold"/>
-                            </h:panelGrid>
-                        </p:outputPanel>
-                        <p:commandButton action="#{examSessionController.prepareView}" 
-                                         value="#{bundle.ProceedWithExam}" class="btn btn-primary"/>
-                    </h:panelGrid>
-
-
-                </p:dataScroller>
+                <h:dataTable value="#{examSessionController.examSessions}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Exam Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.examPaper.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Student"/>
+                            </f:facet>
+                            <h:outputText value="#{item.student.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Is Active"/>
+                            </f:facet>
+                            <h:outputText value="#{item.isActiveSession.toString}"/>
+                        </h:column>
+                        
+                    </h:dataTable>
 
             </h:form>
         </ui:define>

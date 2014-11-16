@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -89,13 +90,30 @@ public class ExamSessionController implements Serializable {
     private ExamAnswers examAnswers;
     private String singleAnswer;
     private List<String> multiAnswers;
+    private List<ExamSession> examSessions; 
 
     public List<String> getMultiAnswers() {
         return multiAnswers;
     }
 
+    @PostConstruct
+    public void init(){
+ 
+    }
+    
+     
+    
     public void setMultiAnswers(List<String> multiAnswers) {
         this.multiAnswers = multiAnswers;
+    }
+
+    public List<ExamSession> getExamSessions() {
+          examSessions = examSessionEjb.findAll();
+        return examSessions;
+    }
+
+    public void setExamSessions(List<ExamSession> examSessions) {
+        this.examSessions = examSessions;
     }
     private ExternalContext externalContext;
 
