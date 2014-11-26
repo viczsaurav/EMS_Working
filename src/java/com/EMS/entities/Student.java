@@ -41,6 +41,7 @@ public class Student extends AbstractEntity implements Serializable {
     @JoinTable(name = "STUDENT_COURSEMODULES", joinColumns
             = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns
             = @JoinColumn(name = "COURSE_ID"))
+    
     private List<CourseModule> enrolledModules;
 
     public AppUser getUser() {

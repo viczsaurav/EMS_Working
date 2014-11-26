@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.EMS.entities;
+package com.EMS.controllers;
 
 import com.EMS.entities.Student;
 import com.EMS.entities.AppUser;
 import com.EMS.ejb.UserFacade;
 import com.EMS.ejb.StudentFacade;
+import com.EMS.entities.AppUser;
+import com.EMS.entities.Student;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
